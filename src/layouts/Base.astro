@@ -41,9 +41,9 @@ const chemins = JSON.stringify({ horaires: horaires?.chemin ?? null, clochers: c
         <a class="diocese" href={diocese.site}><span class="long">{diocese.lien_bandeau}</span><span class="court">{diocese.nom}</span></a>
         <span class="jour-liturgique"><span id="date-du-jour"></span>{diocese.lectures && <> · <a href={diocese.lectures}>Lectures de la messe</a></>}</span>
         <span class="actions">
-          <a href={contact}>Contact</a>
-          <a href="/actualites/"><span class="long">Lettre d'information</span><span class="court">Lettre</span></a>
-          <a href={e.benevoles ?? '#'} title={e.benevoles ? '' : 'Lien Enoria à renseigner'}><span class="long">Espace bénévoles</span><span class="court">Bénévoles</span></a>
+          <a class="secondaire" href={contact}>Contact</a>
+          <a class="secondaire" href="/actualites/">Lettre d'information</a>
+          <a class="secondaire" href={e.benevoles ?? '#'} title={e.benevoles ? '' : 'Lien Enoria à renseigner'}>Espace bénévoles</a>
           <a class="pilule don" href={e.don ?? '#'} title={e.don ? '' : 'Lien Enoria à renseigner'}>Faire un don</a>
         </span>
       </div>
@@ -62,11 +62,17 @@ const chemins = JSON.stringify({ horaires: horaires?.chemin ?? null, clochers: c
         <a class="accueil" href="/" aria-label="Accueil">
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"/></svg>
         </a>
+        <!-- Sur téléphone, l'en-tête est masqué : la barre de menu porte l'emblème et le nom court -->
+        <a class="marque-mobile" href="/"><img src="/img/embleme.webp" alt="" width="28" height="34" /><span>{paroisse.nom_court}</span></a>
         <ul>{MENU.map((m) => <li><a href={m.href} aria-current={actif(m.href) ? 'page' : undefined}>{m.label}</a></li>)}</ul>
         <details class="menu-mobile">
           <summary>Menu</summary>
           <ul>
+            <li><a href="/">Accueil</a></li>
             {MENU.map((m) => <li><a href={m.href}>{m.label}</a></li>)}
+            <li class="separe"><a href={contact}>Contact</a></li>
+            <li><a href="/actualites/">Lettre d'information</a></li>
+            <li><a href={e.benevoles ?? '#'}>Espace bénévoles</a></li>
             {diocese.abus && <li><a href={diocese.abus} style="color:var(--principale)">Accueil et écoute abus</a></li>}
           </ul>
         </details>

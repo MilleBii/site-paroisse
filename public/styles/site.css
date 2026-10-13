@@ -71,12 +71,14 @@ nav.menu > .conteneur > ul a:hover, nav.menu > .conteneur > ul a[aria-current="p
   .menu-mobile a { display: block; padding: 10px; text-decoration: none; color: var(--texte); font-weight: 600; }
   .marque img { height: 60px; }
   .pilule.ecoute { display: none; }
+  .menu-mobile li.separe { border-top: 1px solid var(--bord); margin-top: 6px; padding-top: 6px; }
 }
+.marque-mobile { display: none; }
 
 /* Blocs */
-.hero .conteneur { display: grid; grid-template-columns: 1.3fr 1fr; gap: 24px; align-items: center; padding-top: 12px; padding-bottom: 8px; }
+.hero .conteneur { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 24px; align-items: center; padding-top: 12px; padding-bottom: 8px; }
 .hero img.logo-hero { width: min(100%, 300px); justify-self: center; }
-@media (max-width: 800px) { .hero .conteneur { grid-template-columns: 1fr; } .hero img.logo-hero { display: none; } }
+@media (max-width: 800px) { .hero .conteneur { grid-template-columns: minmax(0, 1fr); } .hero img.logo-hero { display: none; } }
 .grille { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
 .carte { background: var(--fond-doux); border-radius: var(--rayon); padding: 18px 20px; }
 .carte.accent { background: #fff; border: 2px solid var(--fond-doux-fonce); }
@@ -127,11 +129,24 @@ footer.pied .colonnes { display: grid; gap: 24px; grid-template-columns: repeat(
 /* Bandeau sur téléphone : pas de coupure, intitulés courts */
 .bandeau a, .bandeau .pilule { white-space: nowrap; }
 .bandeau .court { display: none; }
+/* Téléphone : une ligne de bandeau (diocèse, don), puis la barre de menu avec l'emblème et le nom court.
+   Le reste du bandeau (date, contact, lettre, bénévoles) passe dans le menu. */
 @media (max-width: 640px) {
+  .poc { font-size: .72rem; padding: 3px 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .bandeau { font-size: .8rem; }
-  .bandeau .conteneur { gap: 4px 12px; }
-  .bandeau .long { display: none; }
+  .bandeau .conteneur { flex-wrap: nowrap; min-height: 36px; padding-top: 3px; padding-bottom: 3px; }
+  .bandeau .long, .bandeau .jour-liturgique, .bandeau .secondaire { display: none; }
   .bandeau .court { display: inline; }
-  .bandeau .actions { width: 100%; justify-content: space-between; gap: 10px; }
   .bandeau .pilule { padding: 3px 12px; }
+  .entete { display: none; }
+  nav.menu .conteneur { min-height: 52px; gap: 10px; }
+  nav.menu .accueil { display: none; }
+  .marque-mobile { display: flex; align-items: center; gap: 8px; min-width: 0; color: #fff; text-decoration: none; font-weight: 600; font-size: 1rem; line-height: 1.15; }
+  .marque-mobile img { height: 34px; width: auto; background: #fff; border-radius: 50%; padding: 3px; flex: none; }
+  .marque-mobile span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .menu-mobile summary { padding: 6px 12px; font-size: .8rem; }
+  h1 { font-size: 1.6rem; }
+  .hero h1 { font-size: 1.35rem; margin-top: .8em; }
+  .hero .intro { font-size: .95rem; margin-top: 0; }
+  h2 { font-size: 1.3rem; margin: 1.2em 0 .5em; }
 }

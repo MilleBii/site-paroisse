@@ -4,6 +4,7 @@ import Celebrations from '../components/Celebrations.astro';
 import CarteLieux from '../components/CarteLieux.astro';
 import FormulaireEnoria from '../components/FormulaireEnoria.astro';
 import ListeArticles from '../components/ListeArticles.astro';
+import ProchaineCelebration from '../components/ProchaineCelebration.astro';
 import { prochaines, pourListes, lieux } from '../lib/agenda';
 import { paroisse } from '../lib/config';
 import { pageAvecBloc } from '../lib/pages';
@@ -18,9 +19,9 @@ const clochers = pageAvecBloc('clochers');
   <section class="hero">
     <div class="conteneur">
       <div>
+        <ProchaineCelebration lien={horaires?.chemin} />
         <h1>{A.titre}</h1>
-        <p>{A.texte}</p>
-        {horaires && <p><a class="bouton" href={horaires.chemin}>Toutes les messes</a></p>}
+        <p class="intro">{A.texte}</p>
       </div>
       <img class="logo-hero" src="/img/logo.webp" alt={`Logo de la ${paroisse.nom}`} width="600" height="600" loading="lazy" />
     </div>
