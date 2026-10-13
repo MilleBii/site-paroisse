@@ -19,8 +19,9 @@ const rubriqueClochers = clochers ? (clochers.ancetres[0] ?? clochers).chemin : 
 const actif = (href: string) => chemin.startsWith(href) || (href === rubriqueClochers && chemin.startsWith('/clochers/'));
 const e = paroisse.enoria;
 const contact = paroisse.contact ?? '/contact/';
-// Espace bénévoles : lien propre à la paroisse s'il est renseigné, sinon la connexion à Enoria
+// Enoria (espace des bénévoles) : lien propre à la paroisse s'il est renseigné, sinon la connexion à Enoria
 const benevoles = e.benevoles ?? 'https://web.enoria.app/';
+const logoEnoria = '<img class="logo-enoria" src="/img/enoria.webp" alt="" width="16" height="16" />';
 const essai = (paroisse.cms as { essai?: boolean }).essai === true;
 // Chemins lus par l'aperçu du back-office (public/admin/apercu.js)
 const chemins = JSON.stringify({ horaires: horaires?.chemin ?? null, clochers: clochers?.chemin ?? null });
@@ -39,7 +40,7 @@ const chemins = JSON.stringify({ horaires: horaires?.chemin ?? null, clochers: c
     <slot name="head" />
   </head>
   <body data-chemins={chemins}>
-    {paroisse.bandeau_prototype && <div class="poc">{paroisse.bandeau_prototype}{essai && <> · <a href="/admin/">Essayer le back-office</a></>}</div>}
+    {paroisse.bandeau_prototype && <div class="poc">{paroisse.bandeau_prototype}{essai && <> · <a href="/admin/" target="_blank" rel="noopener">Essayer le back-office</a></>}</div>}
     <div class="bandeau">
       <div class="conteneur">
         <a class="diocese" href={diocese.site}><span class="long">{diocese.lien_bandeau}</span><span class="court">{diocese.nom}</span></a>
@@ -47,8 +48,8 @@ const chemins = JSON.stringify({ horaires: horaires?.chemin ?? null, clochers: c
         <span class="actions">
           <a class="secondaire" href={contact}>Contact</a>
           <a class="secondaire" href="/actualites/">Lettre d'information</a>
-          <a class="secondaire" href={benevoles}>Espace bénévoles</a>
-          <a class="secondaire" href="/admin/">Espace rédacteurs</a>
+          <a class="secondaire enoria" href={benevoles} target="_blank" rel="noopener" title="Espace des bénévoles (Enoria)"><Fragment set:html={logoEnoria} />Enoria</a>
+          <a class="secondaire" href="/admin/" target="_blank" rel="noopener">Espace rédacteurs</a>
           <a class="pilule don" href={e.don ?? '#'} title={e.don ? '' : 'Lien Enoria à renseigner'}>Faire un don</a>
         </span>
       </div>
@@ -77,8 +78,8 @@ const chemins = JSON.stringify({ horaires: horaires?.chemin ?? null, clochers: c
             {MENU.map((m) => <li><a href={m.href}>{m.label}</a></li>)}
             <li class="separe"><a href={contact}>Contact</a></li>
             <li><a href="/actualites/">Lettre d'information</a></li>
-            <li><a href={benevoles}>Espace bénévoles</a></li>
-            <li><a href="/admin/">Espace rédacteurs</a></li>
+            <li><a class="enoria" href={benevoles} target="_blank" rel="noopener"><Fragment set:html={logoEnoria} />Enoria</a></li>
+            <li><a href="/admin/" target="_blank" rel="noopener">Espace rédacteurs</a></li>
             {diocese.abus && <li><a href={diocese.abus} style="color:var(--principale)">Accueil et écoute abus</a></li>}
           </ul>
         </details>
@@ -106,7 +107,7 @@ const chemins = JSON.stringify({ horaires: horaires?.chemin ?? null, clochers: c
         </div>
         <div>
           <h3>{diocese.nom}</h3>
-          <p><a href={contact}>Contact et permanences</a><br /><a href="/admin/">Espace rédacteurs (modifier le site)</a><br /><a href={diocese.site}>Le site du diocèse</a>{diocese.abus && <><br /><a href={diocese.abus}>Accueil et écoute des victimes d'abus</a></>}</p>
+          <p><a href={contact}>Contact et permanences</a><br /><a href="/admin/" target="_blank" rel="noopener">Espace rédacteurs (modifier le site)</a><br /><a href={diocese.site}>Le site du diocèse</a>{diocese.abus && <><br /><a href={diocese.abus}>Accueil et écoute des victimes d'abus</a></>}</p>
           <a class="pilule" href="/actualites/">S'inscrire à la lettre</a>
         </div>
       </div>
