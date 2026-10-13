@@ -20,8 +20,14 @@ const clochers = pageAvecBloc('clochers');
     <div class="conteneur">
       <div>
         <ProchaineCelebration lien={horaires?.chemin} />
-        <h1>{A.titre}</h1>
-        <p class="intro">{A.texte}</p>
+        <h1 class="sauf-mobile">{A.titre}</h1>
+        <p class="sauf-mobile">{A.texte}</p>
+        <!-- Sur téléphone, le fil des actualités remplace le mot d'accueil -->
+        <section class="seulement-mobile">
+          <h2>Actualités</h2>
+          <ListeArticles max={3} compact />
+          <p><a href="/actualites/">Toutes les actualités ›</a></p>
+        </section>
       </div>
       <img class="logo-hero" src="/img/logo.webp" alt={`Logo de la ${paroisse.nom}`} width="600" height="600" loading="lazy" />
     </div>
@@ -42,9 +48,11 @@ const clochers = pageAvecBloc('clochers');
       </div>
     </div>
 
-    <h2>Actualités</h2>
-    <ListeArticles max={3} />
-    <p><a href="/actualites/">Toutes les actualités</a></p>
+    <section class="sauf-mobile">
+      <h2>Actualités</h2>
+      <ListeArticles max={3} />
+      <p><a href="/actualites/">Toutes les actualités</a></p>
+    </section>
 
     <h2>Vos démarches</h2>
     <div class="grille">

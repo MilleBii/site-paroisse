@@ -1,10 +1,23 @@
 ---
 import { articles, fmtDate } from '../lib/articles';
 import { urlImage } from '../lib/images';
-interface Props { max?: number }
-const { max } = Astro.props;
+// compact : une ligne par article (vignette, date, titre), pour le fil de l'accueil sur téléphone
+interface Props { max?: number; compact?: boolean }
+const { max, compact = false } = Astro.props;
 const liste = max ? articles.slice(0, max) : articles;
 ---
+{compact ? (
+  <ul class="fil-articles">
+    {liste.map((a) => (
+      <li>
+        <a href={`/actualites/${a.slug}/`}>
+          {a.image?.src ? <img src={urlImage(a.image)} alt="" loading="lazy" width="64" height="64" /> : <span class="sans-image" aria-hidden="true"></span>}
+          <span><span class="petit doux">{fmtDate(a.date)}{a.rubrique && ` · ${a.rubrique}`}</span><strong>{a.titre}</strong></span>
+        </a>
+      </li>
+    ))}
+  </ul>
+) : (
 <div class="grille articles">
   {liste.map((a) => (
     <a class="carte tuile article" href={`/actualites/${a.slug}/`}>
@@ -16,9 +29,16 @@ const liste = max ? articles.slice(0, max) : articles;
     </a>
   ))}
 </div>
+)}
 <style>
   .articles .article { text-align: left; display: flex; flex-direction: column; gap: 6px; }
   .articles .article strong { color: var(--principale); }
   .articles .vignette { display: block; width: calc(100% + 40px); max-width: none; margin: -18px -20px 4px; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--rayon) var(--rayon) 0 0; }
   .articles .etiquette { align-self: flex-start; background: #fff; }
+  .fil-articles { list-style: none; margin: 0; padding: 0; }
+  .fil-articles li + li { border-top: 1px solid var(--bord); }
+  .fil-articles a { display: flex; gap: 12px; align-items: center; padding: 10px 0; text-decoration: none; color: var(--texte); }
+  .fil-articles img, .fil-articles .sans-image { flex: none; width: 64px; height: 64px; border-radius: var(--rayon); object-fit: cover; }
+  .fil-articles .sans-image { background: var(--fond-doux) url(/img/embleme.webp) center / 60% no-repeat; }
+  .fil-articles strong { display: block; line-height: 1.3; color: var(--principale); }
 </style>

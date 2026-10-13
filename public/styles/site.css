@@ -101,8 +101,11 @@ nav.menu > .conteneur > ul a:hover, nav.menu > .conteneur > ul a[aria-current="p
 .jour .lieu a { font-weight: 600; text-decoration: none; color: var(--texte); }
 .jour .lieu a:hover { color: var(--principale); }
 .jour .info { display: block; font-size: .85rem; color: var(--texte-doux); }
-.ajout-agenda { display: block; width: fit-content; font-size: .78rem; margin-top: 2px; text-decoration: none; }
+.ajout-agenda { display: flex; align-items: center; gap: 4px; width: fit-content; font-size: .78rem; margin-top: 2px; text-decoration: none; }
+.ajout-agenda svg { width: 14px; height: 14px; }
 .ajout-agenda:hover { text-decoration: underline; }
+/* Éléments propres au téléphone ou à l'ordinateur */
+.seulement-mobile { display: none; }
 
 /* Carte */
 .carte-lieux { height: 420px; border-radius: var(--rayon); z-index: 0; }
@@ -146,7 +149,12 @@ footer.pied .colonnes { display: grid; gap: 24px; grid-template-columns: repeat(
   .marque-mobile span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .menu-mobile summary { padding: 6px 12px; font-size: .8rem; }
   h1 { font-size: 1.6rem; }
-  .hero h1 { font-size: 1.35rem; margin-top: .8em; }
-  .hero .intro { font-size: .95rem; margin-top: 0; }
+  .seulement-mobile { display: block; }
+  .sauf-mobile { display: none; }
+  /* « Ajouter à mon agenda » : une icône à droite de la ligne, sans ligne de texte en plus */
+  .jour li { grid-template-columns: 56px 1fr; position: relative; padding-right: 40px; }
+  .ajout-agenda { position: absolute; right: 0; top: 2px; margin: 0; padding: 6px; border-radius: 6px; }
+  .ajout-agenda svg { width: 20px; height: 20px; }
+  .ajout-agenda span { display: none; }
   h2 { font-size: 1.3rem; margin: 1.2em 0 .5em; }
 }

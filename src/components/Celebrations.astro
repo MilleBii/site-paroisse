@@ -27,7 +27,7 @@ const google = (c: Celebration) => {
                   <> à <span class="lieu"><span class="pastille" style={`background:${secteur(c.lieu.secteur)?.couleur ?? '#999'}`}></span><a href={`/clochers/${c.lieu.slug}/`}>{nomCourt(c.lieu)}</a></span></>
                 )}
                 {c.description && <span class="info">{c.description}</span>}
-                <a class="ajout-agenda" href={google(c)} target="_blank" rel="noopener" title="Ajouter à mon agenda Google">+ Ajouter à mon agenda</a>
+                <a class="ajout-agenda" href={google(c)} target="_blank" rel="noopener" title="Ajouter à mon agenda Google" aria-label="Ajouter à mon agenda"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M7 2h2v2h6V2h2v2h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3zm12 8H5v9h14zm-8 2h2v2h2v2h-2v2h-2v-2H9v-2h2z"/></svg><span>Ajouter à mon agenda</span></a>
               </span>
             </li>
           ))}
