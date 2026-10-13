@@ -36,5 +36,5 @@ elle va dans `paroisse.json` ou `dioceses/<code>/`.
 
 ## Vérifier
 
-`npm run build` (toutes les pages doivent se construire, pour la démo comme pour le site réel), puis `npm run dev -- --host --port 4323` :
+`npm run build` (toutes les pages doivent se construire, pour la démo comme pour le site réel), puis `npx astro dev --host --port 4323` (sous PowerShell, `npm run dev -- …` perd ses options) :
 http://localhost:4323 et http://localhost:4323/admin/ (Chrome ou Edge, « Travailler avec un dépôt local »).
