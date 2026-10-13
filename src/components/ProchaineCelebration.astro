@@ -1,5 +1,5 @@
 ---
-// La prochaine célébration (heure, jour, lieu), puis les deux suivantes. Le site est construit à l'avance :
+// La prochaine célébration (heure, jour, lieu). Le site est construit à l'avance :
 // la page embarque les célébrations des prochains jours et le navigateur choisit celles qui ne sont pas passées.
 import { prochaines, nomCourt, fmtHeure, type Celebration } from '../lib/agenda';
 interface Props { lien?: string | null }
@@ -11,7 +11,7 @@ const donnee = (c: Celebration) => ({
 });
 const jour = (c: Celebration) =>
   c.debut.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'Europe/Paris' });
-const [p, ...suite] = cs;
+const [p] = cs;
 ---
 {p && (
   <section class="prochaine" data-celebrations={JSON.stringify(cs.map(donnee))}>
@@ -24,9 +24,6 @@ const [p, ...suite] = cs;
         <span class="prochaine-nom">{p.lieu.nom}</span>
       </span>
     </a>
-    <ul class="prochaine-suite">
-      {suite.slice(0, 2).map((c) => <li><a href={`/clochers/${c.lieu.slug}/`}><span>{jour(c)}, {fmtHeure(c)}</span> {c.titre} · {nomCourt(c.lieu)}</a></li>)}
-    </ul>
     {lien && <a class="prochaine-toutes" href={lien}>Toutes les messes ›</a>}
   </section>
 )}
@@ -40,7 +37,6 @@ const [p, ...suite] = cs;
     if (cle(d) === cle(dem)) return 'demain';
     return d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: TZ });
   };
-  const echap = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
 
   for (const bloc of document.querySelectorAll<HTMLElement>('.prochaine')) {
     type C = { d: string; j: boolean; h: string; t: string; l: string; n: string; s: string };
@@ -50,19 +46,16 @@ const [p, ...suite] = cs;
     const avenir = (JSON.parse(bloc.dataset.celebrations!) as C[])
       .filter((c) => (c.j ? new Date(c.d) >= debutJour : new Date(c.d).getTime() > maintenant.getTime() - 15 * 6e4));
     if (!avenir.length) { bloc.hidden = true; continue; }
-    const [p, ...suite] = avenir;
+    const [p] = avenir;
     const a = bloc.querySelector<HTMLAnchorElement>('.prochaine-principale')!;
     a.href = `/clochers/${p.s}/`;
     a.querySelector('.prochaine-heure')!.textContent = p.h;
     a.querySelector('.prochaine-jour')!.textContent = quand(new Date(p.d));
     a.querySelector('.prochaine-lieu')!.textContent = `${p.t} · ${p.l}`;
     a.querySelector('.prochaine-nom')!.textContent = p.n;
-    bloc.querySelector('.prochaine-suite')!.innerHTML = suite.slice(0, 2)
-      .map((c) => `<li><a href="/clochers/${c.s}/"><span>${echap(quand(new Date(c.d)))}, ${echap(c.h)}</span> ${echap(c.t)} · ${echap(c.l)}</a></li>`)
-      .join('');
   }
 </script>
-<style is:global>  /* global : les lignes ajoutées par le script doivent aussi être stylées */
+<style>
   .prochaine { background: var(--principale); color: #fff; border-radius: var(--rayon); padding: 14px 16px 12px; margin: 14px 0 8px; }
   .prochaine a { color: #fff; text-decoration: none; }
   .prochaine-titre { margin: 0 0 6px; font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; opacity: .85; }
@@ -73,9 +66,5 @@ const [p, ...suite] = cs;
   .prochaine-jour::first-letter { text-transform: uppercase; }
   .prochaine-lieu { font-size: 1.05rem; }
   .prochaine-nom { font-size: .8rem; opacity: .85; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .prochaine-suite { list-style: none; margin: 10px 0 0; padding: 8px 0 0; border-top: 1px solid rgba(255,255,255,.3); font-size: .85rem; }
-  .prochaine-suite li { padding: 2px 0; }
-  .prochaine-suite span::first-letter { text-transform: uppercase; }
-  .prochaine-suite span { opacity: .85; }
-  .prochaine-toutes { display: inline-block; margin-top: 6px; font-weight: 700; font-size: .9rem; }
+  .prochaine-toutes { display: inline-block; margin-top: 10px; font-weight: 700; font-size: .9rem; }
 </style>

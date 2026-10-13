@@ -37,8 +37,10 @@ async function lireCalendrier(lieu: Lieu) {
 export async function toutesLesCelebrations(): Promise<Celebration[]> {
   if (cache) return cache;
   const out: Celebration[] = [];
-  for (const lieu of lieux) {
-    const cal = await lireCalendrier(lieu);
+  // un flux par église : lus tous en même temps
+  const calendriers = await Promise.all(lieux.map(lireCalendrier));
+  for (const [i, lieu] of lieux.entries()) {
+    const cal = calendriers[i];
     for (const e of Object.values(cal)) {
       if (!e || e.type !== 'VEVENT') continue;
       const cats = ([] as string[]).concat((e as any).categories ?? []).map((c) => c.toUpperCase());
