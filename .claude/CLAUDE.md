@@ -12,7 +12,8 @@ dans les calendriers Enoria. Ce fichier est public ; les notes propres à une pe
 - **Diocèse** (`dioceses/<code>/`) : `diocese.json` (nom, liens diocésains) et `theme.css` (couleurs, police),
   partagés par toutes les paroisses du diocèse.
 - **Paroisse** (`sites/<nom>/`) : `paroisse.json` (identité, textes de l'accueil, liens Enoria, dépôt du
-  back-office), `lieux.json`, `secteurs.json`, `pages/`, `articles/`, `public/` (photos, calendriers, carte, servis
+  back-office), `lieux/<slug>.md` (une fiche par lieu : en-tête, flux iCal `ical`, histoire en texte),
+  `secteurs.json` (`{ secteurs: [...] }`), `pages/`, `articles/`, `public/` (photos, calendriers, carte, servis
   à la racine), `outils/` (scripts propres à la paroisse). Le code y accède par l'alias `@site` ;
   `src/choix-site.mjs` choisit le site (variable `SITE_PAROISSE`, sinon le premier dossier autre que `demo`).
 - `sites/demo/` est le site de démonstration publié avec le modèle : noms de personnes, téléphones et e-mails
@@ -28,7 +29,7 @@ elle va dans `paroisse.json` ou `dioceses/<code>/`.
 - Back-office : `public/admin/` (aperçu identique au site `apercu.js`, photo recadrée `image-cadree.js`, découpe
   à la construction par `src/lib/images.ts`). Sa configuration commune est `src/admin/config-cms.yml` ;
   `/admin/config.yml` y ajoute le dépôt de la paroisse et le dossier du site. Garder la compatibilité Decap CMS.
-- Enoria : un calendrier ICS par lieu (`paroisse.json > calendriers_enoria`, sinon `sites/<nom>/calendriers/`),
+- Enoria : un calendrier ICS par lieu (champ `ical` de la fiche du lieu, sinon `sites/<nom>/calendriers/`),
   sans catégorie dans les flux de lieux ; si des catégories sont présentes, seules `CELEBRATION` et `PUBLIC` sont
   publiées. Les adresses Enoria ne sont jamais publiées : `/ics/` est produit à la construction (`src/pages/ics/`). Formulaires intégrés en iFrame par l'adresse longue public.enoria.app,
   copiée déconnecté, jamais avec `fl=`.

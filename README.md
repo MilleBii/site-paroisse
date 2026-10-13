@@ -31,9 +31,10 @@ et les photos de la paroisse retirés. Ses horaires sont simulés.
 Un dossier de site contient :
 
 - `paroisse.json` : nom, adresse, diocèse (`"diocese": "besancon"` → `dioceses/besancon/`), textes de l'accueil,
-  liens Enoria (don, lettre, espace bénévoles), calendriers Enoria par lieu, dépôt GitHub du back-office ;
-- `lieux.json` : les églises et chapelles (nom, commune, secteur, coordonnées, photo et crédit) ;
-- `secteurs.json` : les secteurs, avec leur couleur sur la carte ;
+  liens Enoria (don, lettre, espace bénévoles), dépôt GitHub du back-office ;
+- `lieux/<slug>.md` : une fiche par église ou chapelle (nom, commune, secteur, coordonnées, flux iCal Enoria,
+  photo et crédit), son histoire en texte ; modifiable dans le back-office, « Églises et chapelles » ;
+- `secteurs.json` : les secteurs, avec leur couleur sur la carte (back-office, « Réglages ») ;
 - `pages/<chemin>/index.md` : une page par dossier, le dossier parent est la page parente ;
 - `articles/*.md` : les actualités ;
 - `public/` : logo (`img/logo.webp`, `img/embleme.webp`, `img/embleme.png`), photos, contour de la paroisse et
@@ -64,8 +65,8 @@ et les liens des pages de clochers s'adaptent à votre arborescence.
 
 ## Calendriers Enoria
 
-- `calendriers_enoria` dans `paroisse.json` : `{ "<slug du lieu>": "<adresse ICS Enoria>" }`.
-  Sans adresse, le site lit `calendriers/<slug>.ics` dans le dossier du site.
+- Champ « Flux iCal Enoria » de chaque lieu (`ical` dans `lieux/<slug>.md`) : l'adresse du calendrier de l'église
+  dans Enoria. Sans adresse, le site lit `calendriers/<slug>.ics` dans le dossier du site.
 - Le site publie à `/ics/` des calendriers filtrés, produits à la construction : un par lieu, un pour la paroisse,
   un par combinaison de secteurs. Les adresses Enoria, qui contiennent une clé, ne sont jamais publiées.
   Reconstruire le site chaque jour pour suivre les changements faits dans Enoria.
