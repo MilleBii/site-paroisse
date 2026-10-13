@@ -28,8 +28,9 @@ elle va dans `paroisse.json` ou `dioceses/<code>/`.
 - Back-office : `public/admin/` (aperçu identique au site `apercu.js`, photo recadrée `image-cadree.js`, découpe
   à la construction par `src/lib/images.ts`). Sa configuration commune est `src/admin/config-cms.yml` ;
   `/admin/config.yml` y ajoute le dépôt de la paroisse et le dossier du site. Garder la compatibilité Decap CMS.
-- Enoria : un calendrier ICS par lieu (`paroisse.json > calendriers_enoria`), seules les catégories
-  `CELEBRATION` et `PUBLIC` sont publiées. Formulaires intégrés en iFrame par l'adresse longue public.enoria.app,
+- Enoria : un calendrier ICS par lieu (`paroisse.json > calendriers_enoria`, sinon `sites/<nom>/calendriers/`),
+  sans catégorie dans les flux de lieux ; si des catégories sont présentes, seules `CELEBRATION` et `PUBLIC` sont
+  publiées. Les adresses Enoria ne sont jamais publiées : `/ics/` est produit à la construction (`src/pages/ics/`). Formulaires intégrés en iFrame par l'adresse longue public.enoria.app,
   copiée déconnecté, jamais avec `fl=`.
 - Code, commentaires et interface en français.
 - Sur le site, uniquement des contacts institutionnels, jamais le portable d'un bénévole.

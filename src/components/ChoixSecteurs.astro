@@ -1,6 +1,6 @@
 ---
 // Choix de un ou plusieurs secteurs : filtre la liste des célébrations de la page (li[data-secteur])
-// et règle l'abonnement à l'agenda (public/ics/secteurs-<masque>.ics, bit i = i-ème secteur).
+// et règle l'abonnement à l'agenda (/ics/secteurs-<masque>.ics, produit par src/pages/ics/, bit i = i-ème secteur).
 import { secteurs } from '../lib/agenda';
 interface Props { titre?: string }
 const { titre = 'Mes secteurs' } = Astro.props;

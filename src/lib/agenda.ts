@@ -1,13 +1,18 @@
 // Lecture des calendriers : un calendrier ICS par lieu, comme Enoria en publie un par église ou salle.
-// À défaut d'adresse Enoria, le calendrier d'un lieu est lu dans sites/<nom>/public/ics/<slug>.ics ; pour brancher Enoria,
-// renseigner l'adresse du calendrier du lieu dans paroisse.json > calendriers_enoria { slug: url }.
+// Adresse du flux Enoria du lieu dans paroisse.json > calendriers_enoria { slug: url } ; à défaut, le fichier
+// sites/<nom>/calendriers/<slug>.ics (données d'exemple). Ces sources ne sont jamais publiées telles quelles :
+// le site sert à /ics/ des calendriers filtrés, produits à la construction (src/pages/ics/).
 import ical from 'node-ical';
+import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { lieux, secteurs, paroisse, PUBLIC_SITE } from './config';
+import { lieux, secteurs, paroisse } from './config';
+import { DOSSIER_SITE } from '../choix-site.mjs';
 
 export type Lieu = (typeof lieux)[number];
 export type Celebration = {
+  uid: string;
   debut: Date;
+  fin: Date | null;
   journee: boolean; // heure non précisée
   titre: string;
   description: string;
@@ -15,6 +20,8 @@ export type Celebration = {
 };
 
 // Seules ces catégories sont publiées : un calendrier d'église peut contenir des réservations privées.
+// Un événement sans catégorie est publié (c'est le cas des flux de lieux d'Enoria).
+// Un événement sans catégorie est publié (c'est le cas des flux de lieux d'Enoria).
 const PUBLIQUES = new Set(['CELEBRATION', 'PUBLIC']);
 const TZ = 'Europe/Paris';
 
@@ -23,7 +30,8 @@ let cache: Celebration[] | null = null;
 async function lireCalendrier(lieu: Lieu) {
   const url = (paroisse.calendriers_enoria as Record<string, string>)[lieu.slug];
   if (url) return ical.async.fromURL(url);
-  return ical.sync.parseFile(join(process.cwd(), PUBLIC_SITE, 'ics', `${lieu.slug}.ics`));
+  const fichier = join(process.cwd(), DOSSIER_SITE, 'calendriers', `${lieu.slug}.ics`);
+  return existsSync(fichier) ? ical.sync.parseFile(fichier) : {};
 }
 
 export async function toutesLesCelebrations(): Promise<Celebration[]> {
@@ -36,7 +44,9 @@ export async function toutesLesCelebrations(): Promise<Celebration[]> {
       const cats = ([] as string[]).concat((e as any).categories ?? []).map((c) => c.toUpperCase());
       if (cats.length && !cats.some((c) => PUBLIQUES.has(c))) continue;
       out.push({
+        uid: String(e.uid ?? `${lieu.slug}-${new Date(e.start).getTime()}`),
         debut: new Date(e.start),
+        fin: e.end ? new Date(e.end) : null,
         journee: (e as any).datetype === 'date',
         titre: String(e.summary ?? 'Célébration'),
         description: String(e.description ?? ''),
@@ -77,9 +87,16 @@ export const fmtJour = (iso: string) =>
 export const fmtHeure = (c: Celebration) =>
   c.journee ? 'heure à préciser' : c.debut.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', timeZone: TZ }).replace(':', 'h').replace(/^0/, '');
 
-// Célébrations présentes dans les calendriers mais trop fréquentes pour les listes générales (paroisse.json > agenda)
-const MASQUEES = new Set<string>(paroisse.agenda?.masquer_des_listes ?? []);
-export const pourListes = (cs: Celebration[]) => cs.filter((c) => !MASQUEES.has(c.description));
+// Messes de semaine trop fréquentes pour les listes générales (ex. un sanctuaire où la messe est quotidienne) :
+// paroisse.json > agenda > semaine_hors_listes [slugs]. Elles restent sur la page du lieu, dans son calendrier et
+// dans « Prochaine célébration ». Le samedi à partir de 17h (messe anticipée du dimanche) reste dans les listes.
+const HORS_LISTES = new Set<string>((paroisse.agenda as { semaine_hors_listes?: string[] } | undefined)?.semaine_hors_listes ?? []);
+const enSemaine = (c: Celebration) => {
+  const jour = c.debut.toLocaleDateString('en-US', { weekday: 'short', timeZone: TZ });
+  const heure = Number(c.debut.toLocaleTimeString('fr-FR', { hour: '2-digit', hour12: false, timeZone: TZ }).slice(0, 2));
+  return jour !== 'Sun' && !(jour === 'Sat' && heure >= 17);
+};
+export const pourListes = (cs: Celebration[]) => cs.filter((c) => !(HORS_LISTES.has(c.lieu.slug) && enSemaine(c)));
 
 export const secteur = (slug: string) => secteurs.find((s) => s.slug === slug);
 // Nom affiché dans les listes : nom_court du lieu s'il en a un (lieux.json), sinon la commune

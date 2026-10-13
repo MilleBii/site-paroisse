@@ -59,8 +59,8 @@
   ],
   "contact": "/contact/",
   "agenda": {
-    "masquer_des_listes": [
-      "Messe de semaine au sanctuaire"
+    "semaine_hors_listes": [
+      "chapelle-notre-dame-du-chene-de-scey-maisieres"
     ]
   },
   "cms": {

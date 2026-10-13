@@ -36,8 +36,9 @@ Un dossier de site contient :
 - `secteurs.json` : les secteurs, avec leur couleur sur la carte ;
 - `pages/<chemin>/index.md` : une page par dossier, le dossier parent est la page parente ;
 - `articles/*.md` : les actualités ;
-- `public/` : logo (`img/logo.webp`, `img/embleme.webp`, `img/embleme.png`), photos, calendriers (`ics/`),
-  contour de la paroisse et des communes (`carte.json`). Ces fichiers sont servis à la racine du site ;
+- `public/` : logo (`img/logo.webp`, `img/embleme.webp`, `img/embleme.png`), photos, contour de la paroisse et
+  des communes (`carte.json`). Ces fichiers sont servis à la racine du site ;
+- `calendriers/<slug>.ics` (facultatif) : calendriers d'exemple des lieux sans flux Enoria ;
 - `outils/` (facultatif) : scripts propres à la paroisse.
 
 ## Quel site est construit ?
@@ -64,7 +65,12 @@ et les liens des pages de clochers s'adaptent à votre arborescence.
 ## Calendriers Enoria
 
 - `calendriers_enoria` dans `paroisse.json` : `{ "<slug du lieu>": "<adresse ICS Enoria>" }`.
-  Sans adresse, le site lit `public/ics/<slug>.ics` dans le dossier du site.
+  Sans adresse, le site lit `calendriers/<slug>.ics` dans le dossier du site.
+- Le site publie à `/ics/` des calendriers filtrés, produits à la construction : un par lieu, un pour la paroisse,
+  un par combinaison de secteurs. Les adresses Enoria, qui contiennent une clé, ne sont jamais publiées.
+  Reconstruire le site chaque jour pour suivre les changements faits dans Enoria.
+- `agenda.semaine_hors_listes` : lieux dont les messes de semaine (quotidiennes, par exemple dans un sanctuaire)
+  sont retirées des listes générales ; elles restent sur la page du lieu et dans son calendrier.
 - Seuls les événements de catégorie `CELEBRATION` ou `PUBLIC` (ou sans catégorie) sont affichés :
   un calendrier d'église peut contenir des réservations privées.
 - Formulaires Enoria : copier l'adresse longue (public.enoria.app) depuis Enoria **déconnecté**.
