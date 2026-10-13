@@ -65,3 +65,50 @@ collections:
       - { name: image, label: "Photo de l'article", widget: image_cadree, formats: ["16:9"], required: false, hint: "Affichée en haut de l'article et sur sa tuile" }
       - { name: statut, label: Statut, widget: select, options: [{ label: "Publié", value: publie }, { label: Brouillon, value: brouillon }], default: publie }
       - { name: body, label: Texte, widget: markdown }
+
+  - name: lieux
+    label: Églises et chapelles
+    label_singular: Lieu
+    folder: {{site}}/lieux
+    create: true
+    slug: "{{nom}}"
+    identifier_field: nom
+    summary: "{{nom}} — {{commune}}"
+    sortable_fields: [nom, commune, secteur]
+    view_groups: [{ label: Secteur, field: secteur }]
+    preview_path: "/clochers/{{slug}}/"
+    fields:
+      - { name: nom, label: "Nom", hint: "Ex. Église Saint-Victor de Saône", widget: string }
+      - { name: nom_court, label: "Nom court", hint: "Affiché dans les listes ; vide = le nom de la commune", widget: string, required: false }
+      - { name: type, label: Type, widget: select, options: [{ label: Église, value: eglise }, { label: Chapelle, value: chapelle }, { label: Sanctuaire, value: sanctuaire }, { label: Monastère, value: monastere }], default: eglise }
+      - { name: commune, label: Commune, widget: string }
+      - { name: secteur, label: Secteur, widget: relation, collection: reglages, file: secteurs, value_field: "secteurs.*.slug", search_fields: ["secteurs.*.nom"], display_fields: ["secteurs.*.nom"] }
+      - { name: ical, label: "Flux iCal Enoria", hint: "Dans Enoria, calendrier de l'église : copier l'adresse du flux iCal (…/salle/ical/….ics). Elle n'est jamais publiée sur le site.", widget: string, required: false }
+      - { name: body, label: "Histoire", hint: "L'histoire de l'édifice, ce qu'il faut y voir, la fête patronale", widget: markdown, required: false }
+      - { name: lat, label: Latitude, widget: number, value_type: float, hint: "Position sur la carte (clic droit sur OpenStreetMap ou Google Maps pour la copier)" }
+      - { name: lon, label: Longitude, widget: number, value_type: float }
+      # Photo du lieu et son crédit (préparées à partir de Wikimedia Commons) : conservées telles quelles
+      - { name: photo, widget: hidden, required: false }
+      - { name: photo_petite, widget: hidden, required: false }
+      - { name: photo_l, widget: hidden, required: false }
+      - { name: photo_h, widget: hidden, required: false }
+      - { name: credit, widget: hidden, required: false }
+      - { name: commons, widget: hidden, required: false }
+      - { name: wikidata, widget: hidden, required: false }
+
+  - name: reglages
+    label: Réglages
+    files:
+      - name: secteurs
+        label: Secteurs
+        file: {{site}}/secteurs.json
+        fields:
+          - name: secteurs
+            label: Secteurs
+            label_singular: secteur
+            widget: list
+            summary: "{{nom}}"
+            fields:
+              - { name: nom, label: Nom, widget: string }
+              - { name: slug, label: "Identifiant", hint: "En minuscules, sans espace ni accent ; ne plus le changer une fois des lieux rattachés", widget: string }
+              - { name: couleur, label: "Couleur sur la carte", widget: color }

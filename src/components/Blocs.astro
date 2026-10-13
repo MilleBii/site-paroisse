@@ -6,7 +6,7 @@ import ChoixSecteurs from './ChoixSecteurs.astro';
 import CarteLieux from './CarteLieux.astro';
 import FormulaireEnoria from './FormulaireEnoria.astro';
 import ListeArticles from './ListeArticles.astro';
-import { prochaines, pourListes, lieux, secteurs, nomCourt } from '../lib/agenda';
+import { prochaines, pourListes, lieux, secteurs, nomCourt, aVenirParLieu } from '../lib/agenda';
 import { urlImage, proportion } from '../lib/images';
 import type { Page } from '../lib/pages';
 
@@ -18,6 +18,8 @@ const besoinHoraires = blocs.find((b) => b.type === 'horaires');
 const horaires = besoinHoraires
   ? pourListes(await prochaines({ jours: besoinHoraires.nombre || 35 }))
   : [];
+const nbAVenir = blocs.some((b) => b.type === 'clochers') ? await aVenirParLieu() : new Map<string, number>();
+const nb = (slug: string) => nbAVenir.get(slug) ?? 0;
 // Sommaire « Sur cette page » dès que la page a au moins deux sections titrées
 const ancre = (t: string) => t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const sections = blocs.filter((b) => b.titre && b.type !== 'a_rediger').map((b) => b.titre!);
@@ -61,8 +63,8 @@ const sections = blocs.filter((b) => b.titre && b.type !== 'a_rediger').map((b) 
             <>
               <h3><span class="pastille" style={`background:${s.couleur}`}></span>{s.nom}</h3>
               <ul class="liste-lieux">
-                {lieux.filter((l) => l.secteur === s.slug).sort((a, z) => z.nb_celebrations - a.nb_celebrations || a.commune.localeCompare(z.commune))
-                  .map((l) => <li><a href={`/clochers/${l.slug}/`} style={l.nb_celebrations ? 'font-weight:600' : ''}>{nomCourt(l)}</a> <span class="doux petit">— {l.nom}</span></li>)}
+                {lieux.filter((l) => l.secteur === s.slug).sort((a, z) => Number(nb(z.slug) > 0) - Number(nb(a.slug) > 0) || a.commune.localeCompare(z.commune))
+                  .map((l) => <li><a href={`/clochers/${l.slug}/`} style={nb(l.slug) ? 'font-weight:600' : ''}>{nomCourt(l)}</a> <span class="doux petit">— {l.nom}</span></li>)}
               </ul>
             </>
           ))}

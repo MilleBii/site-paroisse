@@ -1,27 +1,29 @@
-[
- {
-  "slug": "haute-vallee-de-la-loue",
-  "nom": "Haute Vallée de la Loue",
-  "couleur": "#d62728"
- },
- {
-  "slug": "quatre-monts",
-  "nom": "Quatre Monts - Epeugney",
-  "couleur": "#9467bd"
- },
- {
-  "slug": "plateau-d-amancey",
-  "nom": "Plateau d'Amancey",
-  "couleur": "#ff7f0e"
- },
- {
-  "slug": "plateau-de-saone",
-  "nom": "Plateau de Saône",
-  "couleur": "#2ca02c"
- },
- {
-  "slug": "plateau-de-bouclans",
-  "nom": "Plateau de Bouclans",
-  "couleur": "#1f77b4"
- }
-]
+{
+  "secteurs": [
+    {
+      "slug": "haute-vallee-de-la-loue",
+      "nom": "Haute Vallée de la Loue",
+      "couleur": "#d62728"
+    },
+    {
+      "slug": "quatre-monts",
+      "nom": "Quatre Monts - Epeugney",
+      "couleur": "#9467bd"
+    },
+    {
+      "slug": "plateau-d-amancey",
+      "nom": "Plateau d'Amancey",
+      "couleur": "#ff7f0e"
+    },
+    {
+      "slug": "plateau-de-saone",
+      "nom": "Plateau de Saône",
+      "couleur": "#2ca02c"
+    },
+    {
+      "slug": "plateau-de-bouclans",
+      "nom": "Plateau de Bouclans",
+      "couleur": "#1f77b4"
+    }
+  ]
+}

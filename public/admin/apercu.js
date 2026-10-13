@@ -120,3 +120,12 @@ CMS.registerPreviewTemplate('articles', ({ entry, widgetFor, getAsset }) => {
     d.resume ? h('p', null, h('strong', null, d.resume)) : null,
     h('div', null, widgetFor('body')));
 });
+
+// Églises et chapelles : la photo et l'histoire, comme sur la page du clocher
+CMS.registerPreviewTemplate('lieux', ({ entry, widgetFor }) => {
+  const d = donnees(entry);
+  return page({ titre: d.nom },
+    d.photo ? h('img', { src: d.photo, alt: '', style: { display: 'block', maxWidth: '100%', borderRadius: '6px' } }) : null,
+    h('h2', null, 'Histoire'),
+    d.body ? h('div', null, widgetFor('body')) : encadre("L'histoire de l'édifice, ce qu'il faut y voir, la fête patronale."));
+});

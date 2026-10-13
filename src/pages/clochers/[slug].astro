@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Celebrations from '../../components/Celebrations.astro';
 import CarteLieux from '../../components/CarteLieux.astro';
 import AbonnementAgenda from '../../components/AbonnementAgenda.astro';
-import { lieux, prochaines, secteur, nomCourt, type Lieu } from '../../lib/agenda';
+import { lieux, prochaines, secteur, nomCourt, aVenirParLieu, type Lieu } from '../../lib/agenda';
 import { pageAvecBloc } from '../../lib/pages';
 
 export function getStaticPaths() {
@@ -15,7 +15,8 @@ const aVenir = await prochaines({ lieu: lieu.slug, max: 10 });
 const TYPES: Record<string, string> = { eglise: 'Église', chapelle: 'Chapelle', sanctuaire: 'Sanctuaire', monastere: 'Monastère' };
 const itineraire = `https://www.openstreetmap.org/directions?to=${lieu.lat}%2C${lieu.lon}`;
 const clochers = pageAvecBloc('clochers');
-const voisins = lieux.filter((l) => l.secteur === lieu.secteur && l.slug !== lieu.slug && l.nb_celebrations > 0);
+const nbAVenir = await aVenirParLieu();
+const voisins = lieux.filter((l) => l.secteur === lieu.secteur && l.slug !== lieu.slug && nbAVenir.has(l.slug));
 ---
 <Base titre={lieu.nom} description={`${lieu.nom} : prochaines messes, accès et histoire.`}>
   <div class="conteneur">
@@ -33,12 +34,14 @@ const voisins = lieux.filter((l) => l.secteur === lieu.secteur && l.slug !== lie
           </figure>
         )}
         <h2>Histoire</h2>
-        <p class="a-rediger">Texte à rédiger par la paroisse : l'histoire de l'édifice, ce qu'il faut y voir, la fête patronale.</p>
+        {lieu.histoire
+          ? <div class="histoire" set:html={lieu.histoire} />
+          : <p class="a-rediger">Texte à rédiger par la paroisse (back-office, « Églises et chapelles ») : l'histoire de l'édifice, ce qu'il faut y voir, la fête patronale.</p>}
       </div>
       <div>
         <h2 style="margin-top:0">Prochaines célébrations</h2>
         <Celebrations celebrations={aVenir} afficherLieu={false} vide="Aucune célébration annoncée ici pour le moment. Voir les églises voisines ci-dessous." />
-        <AbonnementAgenda titre={`Les célébrations de ${nomCourt(lieu)} dans mon agenda`} ics={lieu.ics} />
+        <AbonnementAgenda titre={`Les célébrations de ${nomCourt(lieu)} dans mon agenda`} ics={`/ics/${lieu.slug}.ics`} />
         <h2>Accès</h2>
         <CarteLieux focus={lieu} hauteur={340} />
         <p><a class="bouton" href={itineraire} target="_blank" rel="noopener">Itinéraire</a></p>

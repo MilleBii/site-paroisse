@@ -1,14 +1,14 @@
 // Lecture des calendriers : un calendrier ICS par lieu, comme Enoria en publie un par église ou salle.
-// Adresse du flux Enoria du lieu dans paroisse.json > calendriers_enoria { slug: url } ; à défaut, le fichier
+// Adresse du flux Enoria du lieu dans sa fiche (lieux/<slug>.md, champ « ical ») ; à défaut, le fichier
 // sites/<nom>/calendriers/<slug>.ics (données d'exemple). Ces sources ne sont jamais publiées telles quelles :
 // le site sert à /ics/ des calendriers filtrés, produits à la construction (src/pages/ics/).
 import ical from 'node-ical';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { lieux, secteurs, paroisse } from './config';
+import { lieux, secteurs, paroisse, type Lieu } from './config';
 import { DOSSIER_SITE } from '../choix-site.mjs';
 
-export type Lieu = (typeof lieux)[number];
+export type { Lieu };
 export type Celebration = {
   uid: string;
   debut: Date;
@@ -28,8 +28,7 @@ const TZ = 'Europe/Paris';
 let cache: Celebration[] | null = null;
 
 async function lireCalendrier(lieu: Lieu) {
-  const url = (paroisse.calendriers_enoria as Record<string, string>)[lieu.slug];
-  if (url) return ical.async.fromURL(url);
+  if (lieu.ical) return ical.async.fromURL(lieu.ical);
   const fichier = join(process.cwd(), DOSSIER_SITE, 'calendriers', `${lieu.slug}.ics`);
   return existsSync(fichier) ? ical.sync.parseFile(fichier) : {};
 }
@@ -101,6 +100,13 @@ const enSemaine = (c: Celebration) => {
 export const pourListes = (cs: Celebration[]) => cs.filter((c) => !(HORS_LISTES.has(c.lieu.slug) && enSemaine(c)));
 
 export const secteur = (slug: string) => secteurs.find((s) => s.slug === slug);
-// Nom affiché dans les listes : nom_court du lieu s'il en a un (lieux.json), sinon la commune
-export const nomCourt = (l: Lieu) => (l as { nom_court?: string }).nom_court || l.commune || l.nom;
+// Nom affiché dans les listes : nom_court du lieu s'il en a un, sinon la commune
+export const nomCourt = (l: Lieu) => l.nom_court || l.commune || l.nom;
+
+// Nombre de célébrations à venir par lieu (les lieux qui en ont sont mis en avant dans les listes)
+export async function aVenirParLieu() {
+  const n = new Map<string, number>();
+  for (const c of await prochaines()) n.set(c.lieu.slug, (n.get(c.lieu.slug) ?? 0) + 1);
+  return n;
+}
 export { lieux, secteurs, paroisse };

@@ -11,7 +11,7 @@ const liste = max ? articles.slice(0, max) : articles;
     {liste.map((a) => (
       <li>
         <a href={`/actualites/${a.slug}/`}>
-          {a.image?.src ? <img src={urlImage(a.image)} alt="" loading="lazy" width="64" height="64" /> : <span class="sans-image" aria-hidden="true"></span>}
+          {a.image?.src ? <img src={urlImage(a.image)} alt="" loading="lazy" width="64" height="64" /> : <span class="sans-image" aria-hidden="true" style="background-image:url(/img/embleme.webp)"></span>}
           <span><span class="petit doux">{fmtDate(a.date)}{a.rubrique && ` · ${a.rubrique}`}</span><strong>{a.titre}</strong></span>
         </a>
       </li>
@@ -39,6 +39,6 @@ const liste = max ? articles.slice(0, max) : articles;
   .fil-articles li + li { border-top: 1px solid var(--bord); }
   .fil-articles a { display: flex; gap: 12px; align-items: center; padding: 10px 0; text-decoration: none; color: var(--texte); }
   .fil-articles img, .fil-articles .sans-image { flex: none; width: 64px; height: 64px; border-radius: var(--rayon); object-fit: cover; }
-  .fil-articles .sans-image { background: var(--fond-doux) url(/img/embleme.webp) center / 60% no-repeat; }
+  .fil-articles .sans-image { background-color: var(--fond-doux); background-position: center; background-size: 60%; background-repeat: no-repeat; }
   .fil-articles strong { display: block; line-height: 1.3; color: var(--principale); }
 </style>
