@@ -1,0 +1,13 @@
+{
+  "hosting": {
+    "target": "site",
+    "public": "dist",
+    "trailingSlash": true,
+    "ignore": ["**/.*"],
+    "headers": [
+      { "source": "/_astro/**", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
+      { "source": "/ics/**", "headers": [{ "key": "Content-Type", "value": "text/calendar; charset=utf-8" }, { "key": "Cache-Control", "value": "public, max-age=3600" }] },
+      { "source": "/img/**", "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }] }
+    ]
+  }
+}

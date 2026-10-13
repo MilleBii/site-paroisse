@@ -29,6 +29,7 @@ const chemins = JSON.stringify({ horaires: horaires?.chemin ?? null, clochers: c
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{titre === paroisse.nom_court ? paroisse.nom : `${titre} · ${paroisse.nom_court}`}</title>
     <meta name="description" content={description} />
+    {paroisse.indexer === false && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" href="/img/embleme.png" />
     {diocese.police_prechargee && <link rel="preload" href={diocese.police_prechargee} as="font" type="font/woff2" crossorigin />}
     <style is:inline set:html={styleSite + themeDiocese}></style>

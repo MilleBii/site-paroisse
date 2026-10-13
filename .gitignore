@@ -12,3 +12,7 @@ __pycache__/
 
 # Ancien essai Directus, gardé en local seulement
 _archive-directus/
+
+# Projet et site Firebase de chaque déploiement (voir README)
+.firebaserc
+.firebase/

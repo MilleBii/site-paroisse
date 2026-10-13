@@ -82,6 +82,18 @@ et les liens des pages de clochers s'adaptent à votre arborescence.
 Avec `npm run dev` lancé : <http://localhost:4321/admin/> dans Chrome ou Edge, « Travailler avec un dépôt local »,
 choisir le dossier du projet. La configuration commune est `src/admin/config-cms.yml`.
 
+## Mettre en ligne
+
+Le site est statique : `npm run build` produit `dist/`, à déposer chez n'importe quel hébergeur de sites statiques.
+Avec Firebase Hosting (`firebase.json` fourni) :
+
+1. Créer un site dans un projet Firebase, puis un fichier `.firebaserc` (non versionné ici) :
+   `{ "projects": { "default": "<projet>" }, "targets": { "<projet>": { "hosting": { "site": ["<site>"] } } } }`
+2. `npm run build && firebase deploy --only hosting`
+
+Pour un site en essai, `"indexer": false` dans `paroisse.json` demande aux moteurs de recherche de ne pas l'indexer.
+Les horaires sont lus dans Enoria à la construction : reconstruire et redéployer le site chaque jour.
+
 ## Contacts publiés
 
 N'afficher sur le site que des contacts institutionnels (accueil, presbytère, adresse de la paroisse),

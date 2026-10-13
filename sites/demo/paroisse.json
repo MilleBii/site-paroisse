@@ -60,7 +60,7 @@
   "cms": {
     "depot": "votre-compte/votre-site-paroisse",
     "branche": "main",
-    "url_site": "http://localhost:4321"
+    "url_site": "https://sites-paroissiaux.web.app"
   },
   "equipes": [
     {
@@ -110,5 +110,6 @@
       "chapelle-notre-dame-du-chene-de-scey-maisieres"
     ]
   },
-  "bandeau_prototype": "Site de démonstration — contenus d'exemple, horaires simulés ; noms, téléphones et adresses e-mail sont fictifs."
+  "bandeau_prototype": "Site de démonstration — contenus d'exemple, horaires simulés ; noms, téléphones et adresses e-mail sont fictifs.",
+  "indexer": false
 }
