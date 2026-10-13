@@ -8,7 +8,7 @@
     ],
     "headers": [
       {
-        "regex": "^/(?!_astro/|img/|fonts/).*$",
+        "source": "**",
         "headers": [
           {
             "key": "Cache-Control",
