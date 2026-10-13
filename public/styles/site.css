@@ -76,9 +76,6 @@ nav.menu > .conteneur > ul a:hover, nav.menu > .conteneur > ul a[aria-current="p
 .marque-mobile { display: none; }
 
 /* Blocs */
-.hero .conteneur { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 24px; align-items: center; padding-top: 12px; padding-bottom: 8px; }
-.hero img.logo-hero { width: min(100%, 300px); justify-self: center; }
-@media (max-width: 800px) { .hero .conteneur { grid-template-columns: minmax(0, 1fr); } .hero img.logo-hero { display: none; } }
 .grille { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
 .carte { background: var(--fond-doux); border-radius: var(--rayon); padding: 18px 20px; }
 .carte.accent { background: #fff; border: 2px solid var(--fond-doux-fonce); }

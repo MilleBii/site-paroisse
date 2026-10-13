@@ -1,4 +1,8 @@
 ---
+// Accueil : deux publics.
+// - Le visiteur qui entre pour une démarche (baptême, mariage, obsèques…) : « Une démarche ? », en haut à droite.
+// - Le paroissien habitué : la prochaine célébration en haut à gauche, puis les messes et les actualités.
+// Sur téléphone : prochaine célébration, démarches, actualités, messes.
 import Base from '../layouts/Base.astro';
 import Celebrations from '../components/Celebrations.astro';
 import CarteLieux from '../components/CarteLieux.astro';
@@ -9,54 +13,63 @@ import { prochaines, pourListes, lieux } from '../lib/agenda';
 import { paroisse } from '../lib/config';
 import { pageAvecBloc } from '../lib/pages';
 
-// Textes de l'accueil : site/paroisse.json > accueil
+// Textes de l'accueil : paroisse.json > accueil
 const A = paroisse.accueil;
 const aVenir = pourListes(await prochaines({ jours: 9 }));
 const horaires = pageAvecBloc('horaires');
 const clochers = pageAvecBloc('clochers');
+const contact = paroisse.contact ?? '/contact/';
 ---
 <Base titre={paroisse.nom_court}>
-  <section class="hero">
-    <div class="conteneur">
-      <div>
+  <div class="conteneur accueil">
+    <header class="bienvenue sauf-mobile">
+      <h1>{A.titre}</h1>
+      <p>{A.texte}</p>
+    </header>
+
+    <div class="portes">
+      <!-- L'encadré libre (ex. horaires du sanctuaire) : ici sur ordinateur, après la liste des messes sur téléphone -->
+      <div class="colonne-habitues">
         <ProchaineCelebration lien={horaires?.chemin} />
-        <h1 class="sauf-mobile">{A.titre}</h1>
-        <p class="sauf-mobile">{A.texte}</p>
-        <!-- Sur téléphone, le fil des actualités remplace le mot d'accueil -->
-        <section class="seulement-mobile">
-          <h2>Actualités</h2>
-          <ListeArticles max={3} compact />
-          <p><a href="/actualites/">Toutes les actualités ›</a></p>
-        </section>
+        {A.encadre && (
+          <div class="carte accent encadre sauf-mobile">
+            <h3>{A.encadre.titre}</h3>
+            <p set:html={A.encadre.texte} />
+            {A.encadre.lien && <a href={A.encadre.lien}>{A.encadre.libelle}</a>}
+          </div>
+        )}
       </div>
-      <img class="logo-hero" src="/img/logo.webp" alt={`Logo de la ${paroisse.nom}`} width="600" height="600" loading="lazy" />
-    </div>
-  </section>
 
-  <div class="conteneur">
-    <h2>Prochaines messes</h2>
-    <div style="display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));align-items:start">
-      <Celebrations celebrations={aVenir} />
-      <div style="display:grid;gap:16px">
-      {A.encadre && (
-        <aside class="carte accent">
-          <h3>{A.encadre.titre}</h3>
-          <p set:html={A.encadre.texte} />
-          {A.encadre.lien && <a href={A.encadre.lien}>{A.encadre.libelle}</a>}
-        </aside>
-      )}
-      </div>
+      <section class="demarches" aria-labelledby="titre-demarches">
+        <h2 id="titre-demarches">Une démarche ?</h2>
+        <p class="doux">Nous vous accueillons et vous accompagnons.</p>
+        <ul>
+          {A.demarches.map((d) => (
+            <li><a href={d.href}><strong>{d.titre}</strong><span class="doux sauf-mobile">{d.texte}</span></a></li>
+          ))}
+        </ul>
+        <a class="autre-question" href={contact}>Une autre question ? Contacter l'accueil ›</a>
+      </section>
     </div>
 
-    <section class="sauf-mobile">
-      <h2>Actualités</h2>
-      <ListeArticles max={3} />
-      <p><a href="/actualites/">Toutes les actualités</a></p>
-    </section>
-
-    <h2>Vos démarches</h2>
-    <div class="grille">
-      {A.demarches.map((d) => <a class="carte tuile" href={d.href}><strong>{d.titre}</strong><span class="doux">{d.texte}</span></a>)}
+    <div class="habitues">
+      <section class="messes">
+        <h2>Prochaines messes</h2>
+        <Celebrations celebrations={aVenir} />
+        {horaires && <p><a href={horaires.chemin}>Toutes les messes et les permanences ›</a></p>}
+        {A.encadre && (
+          <div class="carte accent encadre seulement-mobile">
+            <h3>{A.encadre.titre}</h3>
+            <p set:html={A.encadre.texte} />
+            {A.encadre.lien && <a href={A.encadre.lien}>{A.encadre.libelle}</a>}
+          </div>
+        )}
+      </section>
+      <aside class="actus">
+        <h2>Actualités</h2>
+        <ListeArticles max={3} compact />
+        <p><a href="/actualites/">Toutes les actualités ›</a></p>
+      </aside>
     </div>
 
     <h2>Nos églises et chapelles</h2>
@@ -76,3 +89,40 @@ const clochers = pageAvecBloc('clochers');
     </div>
   </div>
 </Base>
+
+<style>
+  .bienvenue h1 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin: .9em 0 .2em; }
+  .bienvenue p { margin: 0 0 4px; max-width: 70ch; color: var(--texte-doux); }
+
+  /* Les deux portes d'entrée : prochaine célébration (habitués) et démarches (visiteurs) */
+  .portes { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 20px; align-items: stretch; margin-top: 14px; }
+  .colonne-habitues { display: flex; flex-direction: column; gap: 14px; }
+  .colonne-habitues :global(.prochaine) { margin: 0; }
+  .encadre p { margin: .4em 0; }
+  .encadre h3 { margin: 0; }
+  .messes .encadre { margin-top: 12px; }
+  .demarches { border: 2px solid var(--fond-doux-fonce); border-radius: var(--rayon); padding: 14px 18px; }
+  .demarches h2 { margin: 0; font-size: 1.3rem; }
+  .demarches > p { margin: 2px 0 10px; font-size: .9rem; }
+  .demarches ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 18px; }
+  .demarches li a { display: block; padding: 6px 0; text-decoration: none; color: var(--texte); border-top: 1px solid var(--bord); line-height: 1.3; }
+  .demarches li a:hover strong { text-decoration: underline; }
+  .demarches li strong { display: block; color: var(--principale); }
+  .demarches li span { font-size: .82rem; }
+  .autre-question { display: inline-block; margin-top: 10px; font-weight: 600; font-size: .9rem; text-decoration: none; }
+
+  /* Pour les habitués : les messes, et à côté les actualités */
+  .habitues { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+
+  @media (max-width: 800px) {
+    .portes, .habitues { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+    .actus { order: -1; }  /* sur téléphone, les actualités avant la liste des messes */
+  }
+  @media (max-width: 640px) {
+    .portes { margin-top: 14px; }
+    .demarches { padding: 12px 14px; }
+    .demarches ul { gap: 8px; }
+    .demarches li a { border: 1px solid var(--bord); border-radius: var(--rayon); padding: 10px; height: 100%; font-size: .9rem; }
+    .habitues { gap: 0; }
+  }
+</style>
