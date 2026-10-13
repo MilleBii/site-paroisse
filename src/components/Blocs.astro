@@ -18,11 +18,20 @@ const besoinHoraires = blocs.find((b) => b.type === 'horaires');
 const horaires = besoinHoraires
   ? pourListes(await prochaines({ jours: besoinHoraires.nombre || 35 }))
   : [];
+// Sommaire « Sur cette page » dès que la page a au moins deux sections titrées
+const ancre = (t: string) => t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const sections = blocs.filter((b) => b.titre && b.type !== 'a_rediger').map((b) => b.titre!);
 ---
+{sections.length >= 2 && (
+  <nav class="sommaire" aria-label="Sur cette page">
+    <span class="petit doux">Sur cette page :</span>
+    {sections.map((t) => <a class="pilule secondaire" href={`#${ancre(t)}`}>{t}</a>)}
+  </nav>
+)}
 {blocs.map((b) => {
   switch (b.type) {
     case 'texte':
-      return <section class="bloc">{b.titre && <h2>{b.titre}</h2>}<div set:html={html(b.contenu)} /></section>;
+      return <section class="bloc">{b.titre && <h2 id={ancre(b.titre)}>{b.titre}</h2>}<div set:html={html(b.contenu)} /></section>;
     case 'image':
       return b.photo?.src ? (
         <figure class="bloc photo">
@@ -35,18 +44,18 @@ const horaires = besoinHoraires
     case 'sous_pages':
       return (
         <section class="bloc">
-          {b.titre && <h2>{b.titre}</h2>}
+          {b.titre && <h2 id={ancre(b.titre)}>{b.titre}</h2>}
           <div class="grille">
             {page.enfants.map((e) => <a class="carte tuile" href={e.chemin}><strong>{e.titre}</strong>{e.resume && <span class="doux">{e.resume}</span>}</a>)}
           </div>
         </section>
       );
     case 'horaires':
-      return <section class="bloc">{b.titre && <h2>{b.titre}</h2>}<ChoixSecteurs titre="Choisir mes secteurs" /><Celebrations celebrations={horaires} /></section>;
+      return <section class="bloc">{b.titre && <h2 id={ancre(b.titre)}>{b.titre}</h2>}<ChoixSecteurs titre="Choisir mes secteurs" /><Celebrations celebrations={horaires} /></section>;
     case 'clochers':
       return (
         <section class="bloc">
-          {b.titre && <h2>{b.titre}</h2>}
+          {b.titre && <h2 id={ancre(b.titre)}>{b.titre}</h2>}
           <CarteLieux />
           {secteurs.map((s) => (
             <>
@@ -64,7 +73,7 @@ const horaires = besoinHoraires
     case 'formulaire_iframe':
       return (
         <section class="bloc">
-          {b.titre && <h2>{b.titre}</h2>}
+          {b.titre && <h2 id={ancre(b.titre)}>{b.titre}</h2>}
           {b.contenu && <div set:html={html(b.contenu)} />}
           {b.url && !/[?&]fl=/.test(b.url)
             ? <iframe class="iframe-enoria" src={b.url} title={b.titre ?? 'Formulaire Enoria'} loading="lazy"></iframe>
@@ -72,12 +81,16 @@ const horaires = besoinHoraires
         </section>
       );
     case 'articles':
-      return <section class="bloc">{b.titre && <h2>{b.titre}</h2>}<ListeArticles max={b.nombre || undefined} /></section>;
+      return <section class="bloc">{b.titre && <h2 id={ancre(b.titre)}>{b.titre}</h2>}<ListeArticles max={b.nombre || undefined} /></section>;
     default:
       return null;
   }
 })}
 <style>
+  .sommaire { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 20px; }
+  .sommaire .pilule { padding: 5px 14px; font-size: .9rem; background: #fff; color: var(--principale); border: 1.5px solid var(--principale); }
+  .sommaire .pilule:hover { background: var(--fond-doux); color: var(--principale); }
+  .bloc h2[id] { scroll-margin-top: 70px; }  /* sous la barre de menu fixe */
   .bloc { margin: 0 0 28px; }
   .bloc h3 { margin-top: 1.2em; }
   .photo { margin: 0 0 28px; }
