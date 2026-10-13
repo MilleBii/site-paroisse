@@ -60,7 +60,8 @@
   "cms": {
     "depot": "votre-compte/votre-site-paroisse",
     "branche": "main",
-    "url_site": "https://sites-paroissiaux.web.app"
+    "url_site": "https://sites-paroissiaux.web.app",
+    "essai": true
   },
   "equipes": [
     {

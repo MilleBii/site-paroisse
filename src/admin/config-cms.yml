@@ -22,6 +22,7 @@ collections:
     label_singular: Page
     folder: {{site}}/pages
     create: true
+    identifier_field: titre
     nested: { depth: 6, summary: "{{titre}}" }
     meta: { path: { widget: string, label: "Adresse de la page", index_file: index } }
     preview_path: "/{{dirname}}/"
@@ -53,6 +54,7 @@ collections:
     label_singular: Article
     folder: {{site}}/articles
     create: true
+    identifier_field: titre
     slug: "{{slug}}"
     preview_path: "/actualites/{{slug}}/"
     summary: "{{titre}} — {{date}}"
@@ -88,13 +90,13 @@ collections:
       - { name: lat, label: Latitude, widget: number, value_type: float, hint: "Position sur la carte (clic droit sur OpenStreetMap ou Google Maps pour la copier)" }
       - { name: lon, label: Longitude, widget: number, value_type: float }
       # Photo du lieu et son crédit (préparées à partir de Wikimedia Commons) : conservées telles quelles
-      - { name: photo, widget: hidden, required: false }
-      - { name: photo_petite, widget: hidden, required: false }
-      - { name: photo_l, widget: hidden, required: false }
-      - { name: photo_h, widget: hidden, required: false }
-      - { name: credit, widget: hidden, required: false }
-      - { name: commons, widget: hidden, required: false }
-      - { name: wikidata, widget: hidden, required: false }
+      - { name: photo, widget: hidden }
+      - { name: photo_petite, widget: hidden }
+      - { name: photo_l, widget: hidden }
+      - { name: photo_h, widget: hidden }
+      - { name: credit, widget: hidden }
+      - { name: commons, widget: hidden }
+      - { name: wikidata, widget: hidden }
 
   - name: reglages
     label: Réglages
