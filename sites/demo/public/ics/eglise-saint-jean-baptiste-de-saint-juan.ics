@@ -1,0 +1,7 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//POC site paroisse//Simulation Enoria//FR
+X-WR-CALNAME:Église Saint-Jean-Baptiste de Saint-Juan
+X-WR-TIMEZONE:Europe/Paris
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+END:VCALENDAR

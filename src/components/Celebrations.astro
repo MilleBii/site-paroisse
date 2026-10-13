@@ -1,0 +1,38 @@
+---
+import { parJour, fmtJour, fmtHeure, nomCourt, secteur, type Celebration } from '../lib/agenda';
+interface Props { celebrations: Celebration[]; afficherLieu?: boolean; vide?: string }
+const { celebrations, afficherLieu = true, vide = 'Aucune célébration annoncée pour cette période.' } = Astro.props;
+const jours = parJour(celebrations);
+const z = (d: Date) => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+const google = (c: Celebration) => {
+  const dates = c.journee
+    ? `${c.debut.toLocaleDateString('fr-CA', { timeZone: 'Europe/Paris' }).replace(/-/g, '')}/${new Date(c.debut.getTime() + 864e5).toLocaleDateString('fr-CA', { timeZone: 'Europe/Paris' }).replace(/-/g, '')}`
+    : `${z(c.debut)}/${z(new Date(c.debut.getTime() + 36e5))}`;
+  const q = new URLSearchParams({ action: 'TEMPLATE', text: `${c.titre} – ${nomCourt(c.lieu)}`, dates, location: c.lieu.nom, details: c.description });
+  return `https://calendar.google.com/calendar/render?${q}`;
+};
+---
+{jours.length === 0 ? <p class="doux">{vide}</p> : (
+  <div class="jours">
+    {jours.map(([jour, cs]) => (
+      <section class="jour carte">
+        <h3>{fmtJour(jour)}</h3>
+        <ul>
+          {cs.map((c) => (
+            <li data-secteur={c.lieu.secteur}>
+              <span class="heure">{fmtHeure(c)}</span>
+              <span>
+                {c.titre}
+                {afficherLieu && (
+                  <> à <span class="lieu"><span class="pastille" style={`background:${secteur(c.lieu.secteur)?.couleur ?? '#999'}`}></span><a href={`/clochers/${c.lieu.slug}/`}>{nomCourt(c.lieu)}</a></span></>
+                )}
+                {c.description && <span class="info">{c.description}</span>}
+                <a class="ajout-agenda" href={google(c)} target="_blank" rel="noopener" title="Ajouter à mon agenda Google">+ Ajouter à mon agenda</a>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+)}

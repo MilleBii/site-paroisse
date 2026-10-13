@@ -1,0 +1,32 @@
+---
+import Base from '../../layouts/Base.astro';
+import { articles, fmtDate } from '../../lib/articles';
+import { urlImage } from '../../lib/images';
+export function getStaticPaths() {
+  return articles.map((a) => ({ params: { slug: a.slug }, props: { slug: a.slug } }));
+}
+const a = articles.find((x) => x.slug === Astro.props.slug)!;
+const autres = articles.filter((x) => x.slug !== a.slug).slice(0, 3);
+---
+<Base titre={a.titre} description={a.resume}>
+  <article class="conteneur article-page">
+    <p class="petit"><a href="/actualites/">Actualités</a> › {a.rubrique}</p>
+    <h1>{a.titre}</h1>
+    <p class="petit doux">Publié le {fmtDate(a.date)}</p>
+    {a.image?.src && <img class="couverture" src={urlImage(a.image)} alt="" />}
+    <p class="chapo">{a.resume}</p>
+    <div set:html={a.html} />
+  </article>
+  {autres.length > 0 && (
+    <div class="conteneur">
+      <h2>À lire aussi</h2>
+      <ul>{autres.map((x) => <li><a href={`/actualites/${x.slug}/`}>{x.titre}</a></li>)}</ul>
+    </div>
+  )}
+  <style>
+    .article-page { max-width: 760px; }
+    .article-page .couverture { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: var(--rayon); margin: .4em 0 1em; }
+    .article-page .chapo { font-size: 1.1rem; font-weight: 600; }
+    .article-page blockquote { margin: 1em 0; padding: 4px 16px; border-left: 4px solid var(--accent); background: var(--fond-doux); font-style: italic; }
+  </style>
+</Base>

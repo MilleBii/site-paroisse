@@ -1,0 +1,35 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//POC site paroisse//Simulation Enoria//FR
+X-WR-CALNAME:Église de l'Assomption de Vuillafans
+X-WR-TIMEZONE:Europe/Paris
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+BEGIN:VEVENT
+UID:eglise-de-l-assomption-de-vuillafans-20260920-10h30@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20260920T103000
+DTEND;TZID=Europe/Paris:20260920T113000
+SUMMARY:Messe
+LOCATION:Église de l'Assomption de Vuillafans
+CATEGORIES:CELEBRATION
+DESCRIPTION:messe de la Création – marche Compostelle – catéchèse
+END:VEVENT
+BEGIN:VEVENT
+UID:eglise-de-l-assomption-de-vuillafans-20261206-10h30@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20261206T103000
+DTEND;TZID=Europe/Paris:20261206T113000
+SUMMARY:Messe
+LOCATION:Église de l'Assomption de Vuillafans
+CATEGORIES:CELEBRATION
+END:VEVENT
+BEGIN:VEVENT
+UID:eglise-de-l-assomption-de-vuillafans-20270131-10h30@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20270131T103000
+DTEND;TZID=Europe/Paris:20270131T113000
+SUMMARY:Messe
+LOCATION:Église de l'Assomption de Vuillafans
+CATEGORIES:CELEBRATION
+END:VEVENT
+END:VCALENDAR

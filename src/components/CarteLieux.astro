@@ -1,0 +1,74 @@
+---
+// Carte de la paroisse : limite et communes colorées par secteur (public/carte.json du site),
+// et les lieux de culte cliquables (photo, prochaine célébration, lien vers la page du clocher).
+import { lieux, secteurs, nomCourt, toutesLesCelebrations, fmtHeure, type Lieu } from '../lib/agenda';
+interface Props { focus?: Lieu; hauteur?: number }
+const { focus, hauteur = 460 } = Astro.props;
+
+const now = new Date();
+const prochaine = new Map<string, string>();
+for (const c of await toutesLesCelebrations()) {
+  if (c.debut < now || prochaine.has(c.lieu.slug)) continue;
+  const jour = c.debut.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'Europe/Paris' });
+  prochaine.set(c.lieu.slug, `${jour} à ${fmtHeure(c)}`);
+}
+const points = lieux.map((l) => ({
+  n: nomCourt(l), t: l.nom, s: l.slug, ll: [l.lat, l.lon],
+  c: secteurs.find((s) => s.slug === l.secteur)?.couleur ?? '#777',
+  ph: l.photo_petite ?? null,
+  pr: prochaine.get(l.slug) ?? null,
+  f: focus?.slug === l.slug,
+}));
+---
+<div class="carte-lieux" data-points={JSON.stringify(points)} data-focus={focus ? JSON.stringify([focus.lat, focus.lon]) : ''} style={`height:${hauteur}px`}></div>
+<div class="legende">
+  {secteurs.map((s) => <span><span class="pastille" style={`background:${s.couleur}`}></span>{s.nom}</span>)}
+  <span class="doux">Point plein : célébrations annoncées · cliquez sur un lieu</span>
+</div>
+<script>
+  import 'leaflet/dist/leaflet.css';
+  const echap = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+
+  // La carte (Leaflet, fond de carte, communes) ne se charge qu'à l'approche de l'écran : elle ne ralentit pas la page
+  const observateur = new IntersectionObserver((vues) => {
+    for (const v of vues) if (v.isIntersecting) { observateur.unobserve(v.target); dessiner(v.target as HTMLElement); }
+  }, { rootMargin: '300px' });
+  document.querySelectorAll<HTMLElement>('.carte-lieux').forEach((el) => observateur.observe(el));
+
+  async function dessiner(el: HTMLElement) {
+    const { default: L } = await import('leaflet');
+    const pts = JSON.parse(el.dataset.points!);
+    const focus = el.dataset.focus ? JSON.parse(el.dataset.focus) : null;
+    const map = L.map(el, { scrollWheelZoom: false });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18, attribution: '&copy; contributeurs OpenStreetMap',
+    }).addTo(map);
+
+    // fond : la carte de la paroisse (communes par secteur, limite)
+    fetch('/carte.json').then((r) => r.json()).then((d) => {
+      const fond = L.layerGroup().addTo(map);
+      for (const c of d.communes) {
+        L.polygon(c.p, { color: c.c, weight: 1, opacity: 0.6, fillColor: c.c, fillOpacity: 0.12, interactive: true })
+          .bindTooltip(`${echap(c.n)}<br><small>${echap(c.a)}</small>`, { sticky: true })
+          .addTo(fond);
+      }
+      L.polyline([...d.limite, d.limite[0]], { color: '#1f1f1f', weight: 2.5 }).addTo(fond);
+      fond.eachLayer((l: any) => l.bringToBack?.());
+    });
+
+    const bornes = L.latLngBounds([]);
+    for (const p of pts) {
+      const html = `${p.ph ? `<img src="${p.ph}" alt="" width="220" style="display:block;border-radius:4px;margin-bottom:6px">` : ''}
+        <strong>${echap(p.n)}</strong><br><span style="font-size:.85em">${echap(p.t)}</span><br>
+        ${p.pr ? `<span style="font-size:.85em">Prochaine célébration : ${echap(p.pr)}</span><br>` : '<span style="font-size:.85em;color:#777">Aucune célébration annoncée</span><br>'}
+        <a href="/clochers/${p.s}/" style="display:inline-block;margin-top:6px;background:var(--principale);color:#fff;padding:4px 12px;border-radius:999px;text-decoration:none">Voir le clocher</a>`;
+      L.circleMarker(p.ll, {
+        radius: p.f ? 11 : 7, color: p.f ? '#1f1f1f' : p.c, weight: p.f ? 3 : 2,
+        fillColor: p.c, fillOpacity: p.pr || p.f ? 0.95 : 0.2,
+      }).bindPopup(html, { maxWidth: 240 }).addTo(map);
+      bornes.extend(p.ll);
+    }
+    if (focus) map.setView(focus, 13);
+    else map.fitBounds(bornes, { padding: [20, 20] });
+  }
+</script>

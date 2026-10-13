@@ -1,0 +1,110 @@
+---
+// Cadre commun aux sites de paroisse : thème et liens du diocèse (dioceses/<diocese>/),
+// avec l'identité de la paroisse (paroisse.json, logo et emblème dans public/img/ du site) dans l'en-tête.
+
+import { paroisse, diocese, themeDiocese } from '../lib/config';
+import { menu, pageAvecBloc } from '../lib/pages';
+// Styles intégrés à chaque page (pas de requête bloquante) ; ils servent aussi à l'aperçu du back-office
+import styleSite from '../../public/styles/site.css?raw';
+
+interface Props { titre: string; description?: string }
+const { titre, description = `Messes, démarches et vie de la ${paroisse.nom}.` } = Astro.props;
+const chemin = Astro.url.pathname;
+
+const MENU = menu.map((p) => ({ href: p.chemin, label: p.titre }));
+const horaires = pageAvecBloc('horaires');
+const clochers = pageAvecBloc('clochers');
+// Les pages des clochers (/clochers/…) relèvent de la rubrique qui contient la liste des clochers
+const rubriqueClochers = clochers ? (clochers.ancetres[0] ?? clochers).chemin : null;
+const actif = (href: string) => chemin.startsWith(href) || (href === rubriqueClochers && chemin.startsWith('/clochers/'));
+const e = paroisse.enoria;
+const contact = paroisse.contact ?? '/contact/';
+// Chemins lus par l'aperçu du back-office (public/admin/apercu.js)
+const chemins = JSON.stringify({ horaires: horaires?.chemin ?? null, clochers: clochers?.chemin ?? null });
+---
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titre === paroisse.nom_court ? paroisse.nom : `${titre} · ${paroisse.nom_court}`}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/img/embleme.png" />
+    {diocese.police_prechargee && <link rel="preload" href={diocese.police_prechargee} as="font" type="font/woff2" crossorigin />}
+    <style is:inline set:html={styleSite + themeDiocese}></style>
+    <slot name="head" />
+  </head>
+  <body data-chemins={chemins}>
+    {paroisse.bandeau_prototype && <div class="poc">{paroisse.bandeau_prototype}</div>}
+    <div class="bandeau">
+      <div class="conteneur">
+        <a class="diocese" href={diocese.site}><span class="long">{diocese.lien_bandeau}</span><span class="court">{diocese.nom}</span></a>
+        <span class="jour-liturgique"><span id="date-du-jour"></span>{diocese.lectures && <> · <a href={diocese.lectures}>Lectures de la messe</a></>}</span>
+        <span class="actions">
+          <a href={contact}>Contact</a>
+          <a href="/actualites/"><span class="long">Lettre d'information</span><span class="court">Lettre</span></a>
+          <a href={e.benevoles ?? '#'} title={e.benevoles ? '' : 'Lien Enoria à renseigner'}><span class="long">Espace bénévoles</span><span class="court">Bénévoles</span></a>
+          <a class="pilule don" href={e.don ?? '#'} title={e.don ? '' : 'Lien Enoria à renseigner'}>Faire un don</a>
+        </span>
+      </div>
+    </div>
+    <header class="entete">
+      <div class="conteneur">
+        <a class="marque" href="/">
+          <img src="/img/embleme.webp" alt="" width="70" height="86" />
+          <span>{paroisse.nom_entete.map((ligne, i) => <>{i > 0 && <br />}{ligne}</>)}</span>
+        </a>
+        {diocese.abus && <a class="pilule ecoute" href={diocese.abus}>Accueil et écoute abus</a>}
+      </div>
+    </header>
+    <nav class="menu" aria-label="Menu principal">
+      <div class="conteneur">
+        <a class="accueil" href="/" aria-label="Accueil">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"/></svg>
+        </a>
+        <ul>{MENU.map((m) => <li><a href={m.href} aria-current={actif(m.href) ? 'page' : undefined}>{m.label}</a></li>)}</ul>
+        <details class="menu-mobile">
+          <summary>Menu</summary>
+          <ul>
+            {MENU.map((m) => <li><a href={m.href}>{m.label}</a></li>)}
+            {diocese.abus && <li><a href={diocese.abus} style="color:var(--principale)">Accueil et écoute abus</a></li>}
+          </ul>
+        </details>
+      </div>
+    </nav>
+    <main>
+      <slot />
+    </main>
+    <footer class="pied">
+      <div class="conteneur colonnes">
+        <div>
+          <h3>{paroisse.nom}</h3>
+          <p>Accueil et presbytère : {paroisse.adresse}</p>
+          {paroisse.presentation && <p>{paroisse.presentation}</p>}
+        </div>
+        <div>
+          <h3>Venir à la messe</h3>
+          <p>
+            {[
+              horaires && { href: horaires.chemin, libelle: horaires.titre },
+              clochers && { href: clochers.chemin, libelle: 'Nos églises et chapelles' },
+              ...(paroisse.liens_pied ?? []),
+            ].filter(Boolean).map((l: any, i) => <>{i > 0 && <br />}<a href={l.href}>{l.libelle}</a></>)}
+          </p>
+        </div>
+        <div>
+          <h3>{diocese.nom}</h3>
+          <p><a href={contact}>Contact et permanences</a><br /><a href={diocese.site}>Le site du diocèse</a>{diocese.abus && <><br /><a href={diocese.abus}>Accueil et écoute des victimes d'abus</a></>}</p>
+          <a class="pilule" href="/actualites/">S'inscrire à la lettre</a>
+        </div>
+      </div>
+    </footer>
+    <script>
+      const el = document.getElementById('date-du-jour');
+      if (el) {
+        const d = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+        el.textContent = d.charAt(0).toUpperCase() + d.slice(1);
+      }
+    </script>
+  </body>
+</html>

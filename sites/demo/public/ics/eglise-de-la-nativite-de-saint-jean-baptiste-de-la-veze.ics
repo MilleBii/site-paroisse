@@ -1,0 +1,34 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//POC site paroisse//Simulation Enoria//FR
+X-WR-CALNAME:Église de la Nativité-de-Saint-Jean-Baptiste de La Vèze
+X-WR-TIMEZONE:Europe/Paris
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+BEGIN:VEVENT
+UID:eglise-de-la-nativite-de-saint-jean-baptiste-de-la-veze-20260718-18h00@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20260718T180000
+DTEND;TZID=Europe/Paris:20260718T190000
+SUMMARY:Messe
+LOCATION:Église de la Nativité-de-Saint-Jean-Baptiste de La Vèze
+CATEGORIES:CELEBRATION
+END:VEVENT
+BEGIN:VEVENT
+UID:eglise-de-la-nativite-de-saint-jean-baptiste-de-la-veze-20261031-18h00@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20261031T180000
+DTEND;TZID=Europe/Paris:20261031T190000
+SUMMARY:Messe
+LOCATION:Église de la Nativité-de-Saint-Jean-Baptiste de La Vèze
+CATEGORIES:CELEBRATION
+END:VEVENT
+BEGIN:VEVENT
+UID:eglise-de-la-nativite-de-saint-jean-baptiste-de-la-veze-20270130-18h00@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20270130T180000
+DTEND;TZID=Europe/Paris:20270130T190000
+SUMMARY:Messe
+LOCATION:Église de la Nativité-de-Saint-Jean-Baptiste de La Vèze
+CATEGORIES:CELEBRATION
+END:VEVENT
+END:VCALENDAR

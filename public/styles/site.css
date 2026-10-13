@@ -1,0 +1,137 @@
+/* Styles communs à tous les sites. Les couleurs et la police par défaut, neutres, sont remplacées
+   par le thème du diocèse (dioceses/<diocese>/theme.css), chargé après ce fichier. */
+:root {
+  --principale: #2b4c7e;
+  --principale-fonce: #1d365c;
+  --don: #1f7a4d;
+  --accent: #e0b84a;
+  --fond-doux: #f2f2f0;
+  --fond-doux-fonce: #e2e2df;
+  --gris: #9a9a96;
+  --texte: #1f1f1f;
+  --texte-doux: #5c5c58;
+  --bord: #e2e2df;
+  --police: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --rayon: 6px;
+  --largeur: 1180px;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: #fff; color: var(--texte);
+  font: 16px/1.6 var(--police);
+}
+a { color: var(--principale); }
+a:hover { color: var(--principale-fonce); }
+img { max-width: 100%; height: auto; }
+h1 { font-weight: 300; font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.15; margin: .4em 0 .4em; color: var(--texte); }
+h2 { font-weight: 300; text-transform: uppercase; letter-spacing: .02em; font-size: clamp(1.5rem, 3vw, 2.1rem); margin: 1.4em 0 .6em; color: var(--texte); }
+h3 { font-weight: 700; font-size: 1.02rem; margin: 0 0 .35em; color: var(--principale); }
+.conteneur { max-width: var(--largeur); margin: 0 auto; padding: 0 16px; }
+.doux { color: var(--texte-doux); }
+.petit { font-size: .86rem; }
+
+/* Pilules (boutons de la charte) */
+.pilule, .bouton { display: inline-block; background: var(--principale); color: #fff; padding: 9px 22px; border-radius: 999px; text-decoration: none; font-weight: 400; border: 0; cursor: pointer; font: inherit; }
+.pilule:hover, .bouton:hover { background: var(--principale-fonce); color: #fff; }
+.pilule.don { background: var(--don); font-weight: 700; }
+.bouton.inactif { background: #cfcac6; cursor: not-allowed; }
+
+/* Bandeau diocésain */
+.bandeau { background: var(--fond-doux); font-size: .84rem; }
+.bandeau .conteneur { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: center; justify-content: space-between; min-height: 42px; padding-top: 4px; padding-bottom: 4px; }
+.bandeau a { text-decoration: none; }
+.bandeau .diocese { font-weight: 700; color: var(--texte); }
+.bandeau .jour-liturgique { color: var(--principale); }
+.bandeau .actions { display: flex; gap: 14px; align-items: center; }
+.bandeau .actions a:not(.pilule) { color: var(--texte); }
+.bandeau .pilule { padding: 4px 14px; }
+
+/* En-tête de la paroisse */
+.entete .conteneur { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 14px; padding-bottom: 14px; }
+.marque { display: flex; align-items: center; gap: 16px; text-decoration: none; color: var(--texte); font-weight: 300; font-size: clamp(1.15rem, 2.6vw, 1.75rem); line-height: 1.2; }
+.marque img { height: 86px; width: auto; }
+.pilule.ecoute { white-space: nowrap; }
+
+/* Menu : barre de la couleur principale, capitales blanches */
+nav.menu { background: var(--principale); position: sticky; top: 0; z-index: 1000; }
+nav.menu .conteneur { display: flex; align-items: center; min-height: 54px; }
+nav.menu .accueil { color: #fff; display: flex; padding: 8px 14px 8px 0; }
+nav.menu > .conteneur > ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; }
+nav.menu > .conteneur > ul a { display: block; padding: 16px 12px; color: #fff; text-decoration: none; text-transform: uppercase; font-weight: 700; font-size: .78rem; letter-spacing: .02em; }
+nav.menu > .conteneur > ul a:hover, nav.menu > .conteneur > ul a[aria-current="page"] { background: var(--principale-fonce); }
+.menu-mobile { display: none; }
+@media (max-width: 960px) {
+  nav.menu > .conteneur > ul { display: none; }
+  .menu-mobile { display: block; position: relative; margin-left: auto; }
+  .menu-mobile summary { list-style: none; cursor: pointer; padding: 8px 14px; color: #fff; font-weight: 700; text-transform: uppercase; font-size: .85rem; border: 1px solid rgba(255,255,255,.6); border-radius: 999px; }
+  .menu-mobile summary::-webkit-details-marker { display: none; }
+  .menu-mobile ul { position: absolute; right: 0; top: 120%; background: #fff; border: 1px solid var(--bord); list-style: none; margin: 0; padding: 8px; width: min(80vw, 280px); box-shadow: 0 8px 24px rgba(0,0,0,.12); }
+  .menu-mobile a { display: block; padding: 10px; text-decoration: none; color: var(--texte); font-weight: 600; }
+  .marque img { height: 60px; }
+  .pilule.ecoute { display: none; }
+}
+
+/* Blocs */
+.hero .conteneur { display: grid; grid-template-columns: 1.3fr 1fr; gap: 24px; align-items: center; padding-top: 12px; padding-bottom: 8px; }
+.hero img.logo-hero { width: min(100%, 300px); justify-self: center; }
+@media (max-width: 800px) { .hero .conteneur { grid-template-columns: 1fr; } .hero img.logo-hero { display: none; } }
+.grille { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+.carte { background: var(--fond-doux); border-radius: var(--rayon); padding: 18px 20px; }
+.carte.accent { background: #fff; border: 2px solid var(--fond-doux-fonce); }
+.tuile { display: block; text-decoration: none; color: var(--texte); text-align: center; transition: background .15s; }
+.tuile:hover { background: var(--fond-doux-fonce); color: var(--texte); }
+.tuile strong { display: block; font-weight: 700; margin-bottom: 4px; }
+.pastille { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+.etiquette { display: inline-block; font-size: .78rem; padding: 2px 10px; border-radius: 999px; background: var(--fond-doux); color: var(--texte-doux); }
+.a-rediger { border-left: 4px solid var(--accent); background: #f7f9ec; padding: 10px 14px; color: #4d5420; font-size: .93rem; }
+
+/* Célébrations : façon agenda diocésain (triangle de la couleur d'accent) */
+.jours { display: grid; gap: 14px; }
+.jour { background: none; padding: 0; }
+.jour h3 { color: var(--texte); font-size: 1rem; margin: 0 0 4px; padding-left: 20px; position: relative; text-transform: capitalize; }
+.jour h3::before { content: ""; position: absolute; left: 0; top: 2px; border-style: solid; border-width: 0 0 13px 13px; border-color: transparent transparent var(--accent) transparent; }
+.jour ul { list-style: none; margin: 0; padding: 0 0 0 20px; }
+.jour li { display: grid; grid-template-columns: 70px 1fr; gap: 10px; padding: 5px 0; border-top: 1px solid var(--bord); }
+.jour li:first-child { border-top: 0; }
+.heure { font-weight: 700; color: var(--principale); font-variant-numeric: tabular-nums; }
+.jour .lieu a { font-weight: 600; text-decoration: none; color: var(--texte); }
+.jour .lieu a:hover { color: var(--principale); }
+.jour .info { display: block; font-size: .85rem; color: var(--texte-doux); }
+.ajout-agenda { display: block; width: fit-content; font-size: .78rem; margin-top: 2px; text-decoration: none; }
+.ajout-agenda:hover { text-decoration: underline; }
+
+/* Carte */
+.carte-lieux { height: 420px; border-radius: var(--rayon); z-index: 0; }
+.legende { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .86rem; margin-top: 8px; }
+
+/* Page clocher */
+.clocher { display: grid; grid-template-columns: 1.2fr 1fr; gap: 28px; align-items: start; }
+@media (max-width: 800px) { .clocher { grid-template-columns: 1fr; } }
+.clocher figure { margin: 0; }
+.clocher figcaption { font-size: .78rem; color: var(--texte-doux); margin-top: 4px; }
+.liste-lieux { columns: 2 260px; padding-left: 1.1em; }
+.liste-lieux li { break-inside: avoid; margin-bottom: 3px; }
+
+/* Pied de page */
+footer.pied { margin-top: 56px; background: var(--fond-doux); padding: 32px 0; font-size: .9rem; border-top: 4px solid var(--principale); }
+footer.pied .colonnes { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.poc { background: #fff3cd; color: #6b5420; font-size: .8rem; text-align: center; padding: 5px 16px; }
+
+/* Tableaux des pages (permanences, coordonnées) */
+.bloc table { border-collapse: collapse; width: 100%; font-size: .93rem; margin: .5em 0 1em; display: block; overflow-x: auto; }
+.bloc th, .bloc td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--bord); vertical-align: top; }
+.bloc th { background: var(--fond-doux); font-weight: 700; }
+
+/* Bandeau sur téléphone : pas de coupure, intitulés courts */
+.bandeau a, .bandeau .pilule { white-space: nowrap; }
+.bandeau .court { display: none; }
+@media (max-width: 640px) {
+  .bandeau { font-size: .8rem; }
+  .bandeau .conteneur { gap: 4px 12px; }
+  .bandeau .long { display: none; }
+  .bandeau .court { display: inline; }
+  .bandeau .actions { width: 100%; justify-content: space-between; gap: 10px; }
+  .bandeau .pilule { padding: 3px 12px; }
+}

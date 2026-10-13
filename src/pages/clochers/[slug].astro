@@ -1,0 +1,55 @@
+---
+import Base from '../../layouts/Base.astro';
+import Celebrations from '../../components/Celebrations.astro';
+import CarteLieux from '../../components/CarteLieux.astro';
+import AbonnementAgenda from '../../components/AbonnementAgenda.astro';
+import { lieux, prochaines, secteur, nomCourt, type Lieu } from '../../lib/agenda';
+import { pageAvecBloc } from '../../lib/pages';
+
+export function getStaticPaths() {
+  return lieux.map((l) => ({ params: { slug: l.slug }, props: { lieu: l } }));
+}
+const { lieu } = Astro.props as { lieu: Lieu };
+const s = secteur(lieu.secteur);
+const aVenir = await prochaines({ lieu: lieu.slug, max: 10 });
+const TYPES: Record<string, string> = { eglise: 'Église', chapelle: 'Chapelle', sanctuaire: 'Sanctuaire', monastere: 'Monastère' };
+const itineraire = `https://www.openstreetmap.org/directions?to=${lieu.lat}%2C${lieu.lon}`;
+const clochers = pageAvecBloc('clochers');
+const voisins = lieux.filter((l) => l.secteur === lieu.secteur && l.slug !== lieu.slug && l.nb_celebrations > 0);
+---
+<Base titre={lieu.nom} description={`${lieu.nom} : prochaines messes, accès et histoire.`}>
+  <div class="conteneur">
+    <p class="petit">{clochers && <><a href={clochers.chemin}>{clochers.titre}</a> › </>}{s?.nom}</p>
+    <h1>{lieu.nom}</h1>
+    <p><span class="etiquette">{TYPES[lieu.type] ?? lieu.type}</span> <span class="etiquette"><span class="pastille" style={`background:${s?.couleur}`}></span>Secteur {s?.nom}</span> <span class="etiquette">{lieu.commune}</span></p>
+
+    <div class="clocher">
+      <div>
+        {lieu.photo && (
+          <figure>
+            <img src={lieu.photo} alt={lieu.nom} loading="eager" fetchpriority="high" width={lieu.photo_l ?? 800} height={lieu.photo_h ?? 533}
+              onerror={`this.onerror=null;this.src=this.src.replace('/960px-','/330px-')`} />
+            <figcaption>Photo : {lieu.credit}, via <a href={lieu.commons}>Wikimedia Commons</a></figcaption>
+          </figure>
+        )}
+        <h2>Histoire</h2>
+        <p class="a-rediger">Texte à rédiger par la paroisse : l'histoire de l'édifice, ce qu'il faut y voir, la fête patronale.</p>
+      </div>
+      <div>
+        <h2 style="margin-top:0">Prochaines célébrations</h2>
+        <Celebrations celebrations={aVenir} afficherLieu={false} vide="Aucune célébration annoncée ici pour le moment. Voir les églises voisines ci-dessous." />
+        <AbonnementAgenda titre={`Les célébrations de ${nomCourt(lieu)} dans mon agenda`} ics={lieu.ics} />
+        <h2>Accès</h2>
+        <CarteLieux focus={lieu} hauteur={340} />
+        <p><a class="bouton" href={itineraire} target="_blank" rel="noopener">Itinéraire</a></p>
+      </div>
+    </div>
+
+    {voisins.length > 0 && (
+      <>
+        <h2>Messes dans le secteur {s?.nom}</h2>
+        <ul class="liste-lieux">{voisins.map((v) => <li><a href={`/clochers/${v.slug}/`}>{nomCourt(v)}</a> <span class="doux petit">— {v.nom}</span></li>)}</ul>
+      </>
+    )}
+  </div>
+</Base>

@@ -1,0 +1,67 @@
+# Back-office Sveltia CMS (/admin/). Configuration compatible Decap CMS : on peut changer d'outil sans toucher au contenu.
+# Partie commune à tous les sites. Le dépôt et l'adresse du site viennent de paroisse.json > cms :
+# src/pages/admin/config.yml.ts les ajoute en tête, remplace {{site}} par le dossier du site (sites/<nom>)
+# et sert le tout à /admin/config.yml.
+# En local : « Travailler avec un dépôt local » ouvre directement le dossier du projet (Chrome ou Edge).
+locale: fr
+media_folder: {{site}}/public/img/contenu
+public_folder: /img/contenu
+# Photos de téléphone : réduites dans le navigateur avant l'envoi (2 000 px, WebP), HEIC d'iPhone compris.
+# Le réencodage retire aussi les métadonnées (position GPS).
+media_libraries:
+  default:
+    config:
+      max_file_size: 40000000
+      slugify_filename: true
+      transformations:
+        raster_image: { format: webp, quality: 82, width: 2000, height: 2000 }
+
+collections:
+  - name: pages
+    label: Pages du site
+    label_singular: Page
+    folder: {{site}}/pages
+    create: true
+    nested: { depth: 6, summary: "{{titre}}" }
+    meta: { path: { widget: string, label: "Adresse de la page", index_file: index } }
+    preview_path: "/{{dirname}}/"
+    summary: "{{titre}}"
+    sortable_fields: [ordre, titre]
+    fields:
+      - { name: titre, label: Titre, widget: string }
+      - { name: resume, label: "Résumé", hint: "Une ligne affichée sur la tuile de la page", widget: string, required: false }
+      - { name: statut, label: Statut, widget: select, options: [{ label: "Publiée", value: publie }, { label: Brouillon, value: brouillon }], default: publie }
+      - { name: dans_menu, label: "Dans le menu", hint: "Pour les rubriques de premier niveau", widget: boolean, default: true, required: false }
+      - { name: ordre, label: "Ordre", hint: "Position parmi les pages sœurs", widget: number, required: false }
+      - name: blocs
+        label: Contenu de la page
+        label_singular: bloc
+        widget: list
+        required: false
+        types:
+          - { name: texte, label: Texte, widget: object, summary: "{{titre}}", fields: [{ name: titre, label: Titre, widget: string, required: false }, { name: contenu, label: Texte, widget: markdown }] }
+          - { name: image, label: "Photo", widget: object, summary: "{{legende}}", fields: [{ name: photo, label: Photo, widget: image_cadree, hint: "Choisissez une photo puis son cadrage : faites glisser pour centrer, molette ou pincement pour zoomer" }, { name: legende, label: "Légende", widget: string, required: false }] }
+          - { name: sous_pages, label: "Tuiles vers les sous-pages", widget: object, fields: [{ name: titre, label: Titre, widget: string, required: false }] }
+          - { name: horaires, label: "Horaires des messes (Enoria)", widget: object, fields: [{ name: titre, label: Titre, widget: string, required: false }, { name: nombre, label: "Nombre de jours", widget: number, required: false }] }
+          - { name: clochers, label: "Carte et liste des clochers (Enoria)", widget: object, fields: [{ name: titre, label: Titre, widget: string, required: false }] }
+          - { name: formulaire_iframe, label: "Formulaire Enoria intégré", widget: object, summary: "{{titre}}", fields: [{ name: titre, label: Titre, widget: string, required: false }, { name: url, label: "Adresse du formulaire", hint: "Copiée depuis Enoria déconnecté (sans « fl= »)", widget: string }] }
+          - { name: articles, label: "Derniers articles", widget: object, fields: [{ name: titre, label: Titre, widget: string, required: false }, { name: nombre, label: "Nombre d'articles", widget: number, required: false }] }
+          - { name: a_rediger, label: "Note « à rédiger »", widget: object, fields: [{ name: contenu, label: Note, widget: text }] }
+
+  - name: articles
+    label: Articles
+    label_singular: Article
+    folder: {{site}}/articles
+    create: true
+    slug: "{{slug}}"
+    preview_path: "/actualites/{{slug}}/"
+    summary: "{{titre}} — {{date}}"
+    sortable_fields: [date, titre]
+    fields:
+      - { name: titre, label: Titre, widget: string }
+      - { name: date, label: Date, widget: datetime, format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false }
+      - { name: resume, label: "Résumé", widget: text }
+      - { name: rubrique, label: Rubrique, widget: string, required: false }
+      - { name: image, label: "Photo de l'article", widget: image_cadree, formats: ["16:9"], required: false, hint: "Affichée en haut de l'article et sur sa tuile" }
+      - { name: statut, label: Statut, widget: select, options: [{ label: "Publié", value: publie }, { label: Brouillon, value: brouillon }], default: publie }
+      - { name: body, label: Texte, widget: markdown }

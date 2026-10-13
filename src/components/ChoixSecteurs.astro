@@ -1,0 +1,60 @@
+---
+// Choix de un ou plusieurs secteurs : filtre la liste des célébrations de la page (li[data-secteur])
+// et règle l'abonnement à l'agenda (public/ics/secteurs-<masque>.ics, bit i = i-ème secteur).
+import { secteurs } from '../lib/agenda';
+interface Props { titre?: string }
+const { titre = 'Mes secteurs' } = Astro.props;
+const tous = 2 ** secteurs.length - 1;
+---
+<div class="carte choix-secteurs" data-tous={tous}>
+  <h3>{titre}</h3>
+  <p class="puces">
+    {secteurs.map((s, i) => (
+      <label class="puce" style={`--c:${s.couleur}`}>
+        <input type="checkbox" value={s.slug} data-bit={2 ** i} checked />{s.nom}
+      </label>
+    ))}
+  </p>
+  <p class="petit doux etat">Tous les secteurs</p>
+  <p class="boutons">
+    <a class="pilule webcal" href={`/ics/secteurs-${tous}.ics`}>S'abonner dans mon agenda</a>
+    <a class="pilule secondaire fichier" href={`/ics/secteurs-${tous}.ics`} download>Importer le fichier (.ics)</a>
+  </p>
+  <p class="petit doux">« S'abonner » garde votre agenda à jour (iPhone, Outlook, Thunderbird). Sur Android : importez le fichier puis ouvrez-le avec votre agenda. Google Agenda sera proposé une fois le site en ligne.</p>
+</div>
+<script>
+  const CLE = 'secteurs-choisis';
+  for (const bloc of document.querySelectorAll<HTMLElement>('.choix-secteurs')) {
+    const cases = [...bloc.querySelectorAll<HTMLInputElement>('input[type=checkbox]')];
+    const tous = Number(bloc.dataset.tous);
+    try {
+      const memo = JSON.parse(localStorage.getItem(CLE) ?? 'null');
+      if (Array.isArray(memo) && memo.length) for (const c of cases) c.checked = memo.includes(c.value);
+    } catch {}
+    const appliquer = () => {
+      const choisis = cases.filter((c) => c.checked);
+      const actifs = choisis.length ? choisis : cases; // aucun coché = tous
+      const masque = actifs.reduce((m, c) => m | Number(c.dataset.bit), 0);
+      const ics = `/ics/secteurs-${masque}.ics`;
+      bloc.querySelector<HTMLAnchorElement>('.webcal')!.href = `webcal://${location.host}${ics}`;
+      bloc.querySelector<HTMLAnchorElement>('.fichier')!.href = ics;
+      bloc.querySelector('.etat')!.textContent =
+        masque === tous ? 'Tous les secteurs' : `${actifs.length} secteur${actifs.length > 1 ? 's' : ''} sur ${cases.length}`;
+      const garder = new Set(actifs.map((c) => c.value));
+      for (const li of document.querySelectorAll<HTMLElement>('.jour li[data-secteur]')) li.hidden = !garder.has(li.dataset.secteur!);
+      for (const j of document.querySelectorAll<HTMLElement>('.jour')) j.hidden = ![...j.querySelectorAll<HTMLElement>('li')].some((li) => !li.hidden);
+      try { localStorage.setItem(CLE, JSON.stringify(choisis.map((c) => c.value))); } catch {}
+    };
+    for (const c of cases) c.addEventListener('change', appliquer);
+    appliquer();
+  }
+</script>
+<style>
+  .choix-secteurs .puces { display: flex; flex-wrap: wrap; gap: 8px; }
+  .puce { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border: 2px solid var(--c); border-radius: 999px; cursor: pointer; font-size: .9rem; background: #fff; user-select: none; }
+  .puce:has(input:checked) { background: var(--c); color: #fff; }
+  .puce input { accent-color: #fff; margin: 0; }
+  .choix-secteurs .boutons { display: flex; flex-wrap: wrap; gap: 8px; }
+  .choix-secteurs .secondaire { background: #fff; color: var(--principale); border: 1.5px solid var(--principale); }
+  .choix-secteurs .secondaire:hover { background: var(--fond-doux); color: var(--principale); }
+</style>

@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//POC site paroisse//Simulation Enoria//FR
+X-WR-CALNAME:Église Saint-Martin de Dammartin-les-Templiers
+X-WR-TIMEZONE:Europe/Paris
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+BEGIN:VEVENT
+UID:eglise-saint-martin-de-dammartin-les-templiers-20261024-18h00@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20261024T180000
+DTEND;TZID=Europe/Paris:20261024T190000
+SUMMARY:Messe
+LOCATION:Église Saint-Martin de Dammartin-les-Templiers
+CATEGORIES:CELEBRATION
+END:VEVENT
+BEGIN:VEVENT
+UID:eglise-saint-martin-de-dammartin-les-templiers-20261212-18h00@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20261212T180000
+DTEND;TZID=Europe/Paris:20261212T190000
+SUMMARY:Messe
+LOCATION:Église Saint-Martin de Dammartin-les-Templiers
+CATEGORIES:CELEBRATION
+END:VEVENT
+END:VCALENDAR

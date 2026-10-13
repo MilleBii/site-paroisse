@@ -1,0 +1,24 @@
+---
+import { articles, fmtDate } from '../lib/articles';
+import { urlImage } from '../lib/images';
+interface Props { max?: number }
+const { max } = Astro.props;
+const liste = max ? articles.slice(0, max) : articles;
+---
+<div class="grille articles">
+  {liste.map((a) => (
+    <a class="carte tuile article" href={`/actualites/${a.slug}/`}>
+      {a.image?.src && <img class="vignette" src={urlImage(a.image)} alt="" loading="lazy" />}
+      <span class="etiquette">{a.rubrique}</span>
+      <strong>{a.titre}</strong>
+      <span class="petit doux">{fmtDate(a.date)}</span>
+      <span class="doux">{a.resume}</span>
+    </a>
+  ))}
+</div>
+<style>
+  .articles .article { text-align: left; display: flex; flex-direction: column; gap: 6px; }
+  .articles .article strong { color: var(--principale); }
+  .articles .vignette { display: block; width: calc(100% + 40px); max-width: none; margin: -18px -20px 4px; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--rayon) var(--rayon) 0 0; }
+  .articles .etiquette { align-self: flex-start; background: #fff; }
+</style>

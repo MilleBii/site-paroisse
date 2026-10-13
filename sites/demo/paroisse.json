@@ -1,0 +1,115 @@
+{
+  "nom": "Paroisse Notre-Dame du Chêne des Premiers Plateaux",
+  "nom_court": "Notre-Dame du Chêne",
+  "nom_entete": [
+    "Paroisse Notre-Dame du Chêne",
+    "des Premiers Plateaux"
+  ],
+  "diocese": "besancon",
+  "adresse": "2 rue du Champliman, 25290 Ornans",
+  "presentation": "59 communes, 5 secteurs, 1 sanctuaire.",
+  "bandeau_prototype": "Site de démonstration — contenus d'exemple, horaires simulés ; noms, téléphones et adresses e-mail sont fictifs.",
+  "accueil": {
+    "titre": "Bienvenue à Notre-Dame du Chêne des Premiers Plateaux",
+    "texte": "Une paroisse, cinq secteurs et 59 communes autour d'Ornans, de Saône, de Bouclans, d'Amancey et des Quatre Monts, réunies autour du sanctuaire Notre-Dame du Chêne.",
+    "encadre": {
+      "titre": "Au sanctuaire Notre-Dame du Chêne",
+      "texte": "Messe chaque jour : 18h15 les lundi, mercredi et vendredi ; 8h30 les mardi, jeudi et samedi.<br />Le dimanche : 8h30 et 17h.",
+      "lien": "/clochers/chapelle-notre-dame-du-chene-de-scey-maisieres/",
+      "libelle": "Le sanctuaire"
+    },
+    "demarches": [
+      {
+        "href": "/etapes-de-vie/bapteme-des-enfants/",
+        "titre": "Faire baptiser son enfant",
+        "texte": "Les étapes, les délais, qui contacter."
+      },
+      {
+        "href": "/adultes/demander-le-bapteme/",
+        "titre": "Demander le baptême adulte",
+        "texte": "Un chemin à votre rythme, accompagné."
+      },
+      {
+        "href": "/etapes-de-vie/mariage/",
+        "titre": "Se marier à l'église",
+        "texte": "Préparer son mariage, un an à l'avance."
+      },
+      {
+        "href": "/etapes-de-vie/obseques/",
+        "titre": "Préparer des obsèques",
+        "texte": "Être accompagné dans le deuil."
+      },
+      {
+        "href": "/enfants-et-jeunes/catechisme/",
+        "titre": "Inscrire mon enfant au caté",
+        "texte": "Éveil à la foi, catéchisme, aumônerie."
+      },
+      {
+        "href": "/la-paroisse/nouveaux-arrivants/",
+        "titre": "Nouvel arrivant ?",
+        "texte": "Bienvenue ! Par où commencer."
+      }
+    ]
+  },
+  "liens_pied": [
+    {
+      "libelle": "Le sanctuaire Notre-Dame du Chêne",
+      "href": "/clochers/chapelle-notre-dame-du-chene-de-scey-maisieres/"
+    }
+  ],
+  "contact": "/contact/",
+  "agenda": {
+    "masquer_des_listes": [
+      "Messe de semaine au sanctuaire"
+    ]
+  },
+  "cms": {
+    "depot": "votre-compte/votre-site-paroisse",
+    "branche": "main",
+    "url_site": "http://localhost:4321"
+  },
+  "equipes": [
+    {
+      "titre": "Prêtres",
+      "membres": [
+        {
+          "nom": "P. Jean EXEMPLE",
+          "role": "Curé"
+        },
+        {
+          "nom": "P. Paul EXEMPLE",
+          "role": "Recteur de Notre-Dame du Chêne, vicaire"
+        },
+        {
+          "nom": "P. Marc EXEMPLE",
+          "role": "Vicaire"
+        },
+        {
+          "nom": "P. Luc EXEMPLE",
+          "role": "Vicaire"
+        }
+      ]
+    },
+    {
+      "titre": "Diacres",
+      "membres": [
+        {
+          "nom": "Étienne EXEMPLE",
+          "role": "Diacre, en stage pour un an à Notre-Dame du Chêne"
+        },
+        {
+          "nom": "Philippe EXEMPLE",
+          "role": "Diacre permanent"
+        }
+      ]
+    }
+  ],
+  "enoria": {
+    "lettre": null,
+    "don": null,
+    "benevoles": null,
+    "reservation_salle": null,
+    "accompagnateur_catechumenat": null
+  },
+  "calendriers_enoria": {}
+}

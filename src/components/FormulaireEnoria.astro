@@ -1,0 +1,15 @@
+---
+// Carte aux couleurs du site, avec un bouton qui ouvre le formulaire Enoria (plutôt qu'un iFrame).
+// L'adresse se copie depuis Enoria déconnecté : elle ne doit pas contenir de paramètre « fl= ».
+interface Props { titre: string; texte: string; url?: string | null; bouton?: string }
+const { titre, texte, url, bouton = "S'inscrire" } = Astro.props;
+const propre = url && !/[?&]fl=/.test(url) ? url.replace(/([?&])display=iframe&?/, '$1').replace(/[?&]$/, '') : null;
+---
+<div class="carte accent">
+  <h3>{titre}</h3>
+  <p>{texte}</p>
+  {propre
+    ? <a class="bouton" href={propre} target="_blank" rel="noopener">{bouton}</a>
+    : <span class="bouton inactif" title="Formulaire Enoria à renseigner dans paroisse.json">{bouton}</span>}
+  <p class="petit doux">Formulaire géré dans Enoria{propre ? '' : ' — lien à renseigner'}.</p>
+</div>

@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.astro/
+__pycache__/
+
+# Notes et réglages personnels (Claude Code, VS Code) : jamais dans le dépôt public.
+# Les consignes communes pour Claude sont dans .claude/CLAUDE.md.
+/CLAUDE.md
+/CLAUDE.local.md
+.claude/settings.local.json
+*.code-workspace
+
+# Ancien essai Directus, gardé en local seulement
+_archive-directus/

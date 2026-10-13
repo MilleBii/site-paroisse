@@ -1,0 +1,46 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//POC site paroisse//Simulation Enoria//FR
+X-WR-CALNAME:Église Saint-Antide de Naisey-les-Granges
+X-WR-TIMEZONE:Europe/Paris
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+BEGIN:VEVENT
+UID:eglise-saint-antide-de-naisey-les-granges-20260711-18h00@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20260711T180000
+DTEND;TZID=Europe/Paris:20260711T190000
+SUMMARY:Messe
+LOCATION:Église Saint-Antide de Naisey-les-Granges
+CATEGORIES:CELEBRATION
+END:VEVENT
+BEGIN:VEVENT
+UID:eglise-saint-antide-de-naisey-les-granges-20261115-10h30@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20261115T103000
+DTEND;TZID=Europe/Paris:20261115T113000
+SUMMARY:Messe
+LOCATION:Église Saint-Antide de Naisey-les-Granges
+CATEGORIES:CELEBRATION
+DESCRIPTION:fête de l'Alliance
+END:VEVENT
+BEGIN:VEVENT
+UID:eglise-saint-antide-de-naisey-les-granges-20261224-19h00@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20261224T190000
+DTEND;TZID=Europe/Paris:20261224T200000
+SUMMARY:Messe
+LOCATION:Église Saint-Antide de Naisey-les-Granges
+CATEGORIES:CELEBRATION
+DESCRIPTION:Veillée de Noël
+END:VEVENT
+BEGIN:VEVENT
+UID:eglise-saint-antide-de-naisey-les-granges-20270210-10h30@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20270210T103000
+DTEND;TZID=Europe/Paris:20270210T113000
+SUMMARY:Messe
+LOCATION:Église Saint-Antide de Naisey-les-Granges
+CATEGORIES:CELEBRATION
+DESCRIPTION:Cendres
+END:VEVENT
+END:VCALENDAR

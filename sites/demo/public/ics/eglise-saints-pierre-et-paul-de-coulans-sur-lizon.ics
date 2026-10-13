@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//POC site paroisse//Simulation Enoria//FR
+X-WR-CALNAME:Église Saints-Pierre-et-Paul de Coulans-sur-Lizon
+X-WR-TIMEZONE:Europe/Paris
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+BEGIN:VEVENT
+UID:eglise-saints-pierre-et-paul-de-coulans-sur-lizon-20260830-10h30@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20260830T103000
+DTEND;TZID=Europe/Paris:20260830T113000
+SUMMARY:Messe
+LOCATION:Église Saints-Pierre-et-Paul de Coulans-sur-Lizon
+CATEGORIES:CELEBRATION
+END:VEVENT
+END:VCALENDAR

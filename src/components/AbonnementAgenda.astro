@@ -1,0 +1,42 @@
+---
+// Bloc « Ajouter à mon agenda » : abonnement (webcal, mis à jour automatiquement) ou import du fichier .ics.
+// Avec les vrais calendriers, l'adresse sera celle du flux Enoria du lieu ou un flux regroupé par le site.
+interface Props { titre?: string; ics: string; choix?: { label: string; ics: string }[] }
+const { titre = 'Ajouter ces horaires à mon agenda', ics, choix } = Astro.props;
+---
+<div class="carte agenda-abo">
+  <h3>{titre}</h3>
+  {choix && (
+    <p>
+      <label class="petit">Calendrier :
+        <select class="choix-ics">
+          {choix.map((c) => <option value={c.ics} selected={c.ics === ics}>{c.label}</option>)}
+        </select>
+      </label>
+    </p>
+  )}
+  <p class="boutons">
+    <a class="pilule webcal" href={ics} data-ics={ics}>S'abonner</a>
+    <a class="pilule secondaire fichier" href={ics} data-ics={ics} download>Importer le fichier (.ics)</a>
+  </p>
+  <p class="petit doux">« S'abonner » garde votre agenda à jour (iPhone, Outlook, Thunderbird). Sur Android : importez le fichier puis ouvrez-le avec votre agenda. Google Agenda sera proposé une fois le site en ligne.</p>
+</div>
+<script>
+  // webcal:// a besoin de l'adresse complète du site
+  const maj = (bloc: Element, ics: string) => {
+    const w = bloc.querySelector<HTMLAnchorElement>('.webcal')!;
+    const f = bloc.querySelector<HTMLAnchorElement>('.fichier')!;
+    w.href = `webcal://${location.host}${ics}`;
+    f.href = ics;
+  };
+  for (const bloc of document.querySelectorAll('.agenda-abo')) {
+    maj(bloc, bloc.querySelector<HTMLAnchorElement>('.webcal')!.dataset.ics!);
+    bloc.querySelector<HTMLSelectElement>('.choix-ics')?.addEventListener('change', (e) => maj(bloc, (e.target as HTMLSelectElement).value));
+  }
+</script>
+<style>
+  .agenda-abo .boutons { display: flex; flex-wrap: wrap; gap: 8px; }
+  .agenda-abo .secondaire { background: #fff; color: var(--principale); border: 1.5px solid var(--principale); }
+  .agenda-abo .secondaire:hover { background: var(--fond-doux); color: var(--principale); }
+  .agenda-abo select { font: inherit; padding: 4px 8px; margin-left: 6px; }
+</style>

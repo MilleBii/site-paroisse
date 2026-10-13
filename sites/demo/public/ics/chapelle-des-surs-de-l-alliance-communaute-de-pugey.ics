@@ -1,0 +1,34 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//POC site paroisse//Simulation Enoria//FR
+X-WR-CALNAME:Chapelle des Sœurs de l'Alliance (communauté de Pugey)
+X-WR-TIMEZONE:Europe/Paris
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+BEGIN:VEVENT
+UID:chapelle-des-surs-de-l-alliance-communaute-de-pugey-20260801-18h00@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20260801T180000
+DTEND;TZID=Europe/Paris:20260801T190000
+SUMMARY:Messe
+LOCATION:Chapelle des Sœurs de l'Alliance (communauté de Pugey)
+CATEGORIES:CELEBRATION
+END:VEVENT
+BEGIN:VEVENT
+UID:chapelle-des-surs-de-l-alliance-communaute-de-pugey-20261114-18h00@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20261114T180000
+DTEND;TZID=Europe/Paris:20261114T190000
+SUMMARY:Messe
+LOCATION:Chapelle des Sœurs de l'Alliance (communauté de Pugey)
+CATEGORIES:CELEBRATION
+END:VEVENT
+BEGIN:VEVENT
+UID:chapelle-des-surs-de-l-alliance-communaute-de-pugey-20270206-18h00@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20270206T180000
+DTEND;TZID=Europe/Paris:20270206T190000
+SUMMARY:Messe
+LOCATION:Chapelle des Sœurs de l'Alliance (communauté de Pugey)
+CATEGORIES:CELEBRATION
+END:VEVENT
+END:VCALENDAR

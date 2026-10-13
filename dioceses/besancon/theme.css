@@ -1,0 +1,19 @@
+/* Charte du diocèse de Besançon (diocese-besancon.fr, relevée le 11/10/2026) :
+   bordeaux #9f1735, vert « don » #00783e, vert anis #b5d044, gris beige #f0eeed, police Montserrat. */
+@font-face {
+  font-family: Montserrat; font-style: normal; font-weight: 300 700; font-display: swap;
+  src: url(/fonts/montserrat-latin.woff2) format("woff2");
+}
+:root {
+  --principale: #9f1735;
+  --principale-fonce: #7e1129;
+  --don: #00783e;
+  --accent: #b5d044;
+  --fond-doux: #f0eeed;
+  --fond-doux-fonce: #e3e0de;
+  --gris: #9d9893;
+  --texte: #1f1f1f;
+  --texte-doux: #5f5a56;
+  --bord: #e3e0de;
+  --police: Montserrat, system-ui, -apple-system, "Segoe UI", sans-serif;
+}

@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//POC site paroisse//Simulation Enoria//FR
+X-WR-CALNAME:Église Saint-Pierre-et-Saint-Paul de Scey-en-Varais
+X-WR-TIMEZONE:Europe/Paris
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+BEGIN:VEVENT
+UID:eglise-saint-pierre-et-saint-paul-de-scey-en-varais-20260801-18h30@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20260801T183000
+DTEND;TZID=Europe/Paris:20260801T193000
+SUMMARY:Messe
+LOCATION:Église Saint-Pierre-et-Saint-Paul de Scey-en-Varais
+CATEGORIES:CELEBRATION
+END:VEVENT
+BEGIN:VEVENT
+UID:eglise-saint-pierre-et-saint-paul-de-scey-en-varais-20261107-18h00@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20261107T180000
+DTEND;TZID=Europe/Paris:20261107T190000
+SUMMARY:Messe
+LOCATION:Église Saint-Pierre-et-Saint-Paul de Scey-en-Varais
+CATEGORIES:CELEBRATION
+END:VEVENT
+END:VCALENDAR

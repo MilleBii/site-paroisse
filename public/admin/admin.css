@@ -1,0 +1,10 @@
+/* Champ « image_cadree » du back-office */
+.cadre { display: grid; gap: 10px; }
+.cadre-zone { max-height: 420px; background: #f3f3f3; border-radius: 6px; overflow: hidden; }
+.cadre-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.cadre-libelle { font-size: .8rem; color: #666; margin: 0 2px 0 8px; }
+.cadre-libelle:first-child { margin-left: 0; }
+.cadre-bouton { font: inherit; font-size: .85rem; padding: 4px 10px; border: 1px solid #c8c8c8; border-radius: 6px; background: #fff; cursor: pointer; }
+.cadre-bouton:hover { background: #f0f0f0; }
+.cadre-bouton.actif { background: #444; border-color: #444; color: #fff; }
+.cadre-erreur { color: #b00020; margin: 0; }

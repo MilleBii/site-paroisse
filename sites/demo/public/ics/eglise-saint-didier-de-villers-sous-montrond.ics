@@ -1,0 +1,35 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//POC site paroisse//Simulation Enoria//FR
+X-WR-CALNAME:Église Saint-Didier de Villers-sous-Montrond
+X-WR-TIMEZONE:Europe/Paris
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+BEGIN:VEVENT
+UID:eglise-saint-didier-de-villers-sous-montrond-20260704-18h30@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20260704T183000
+DTEND;TZID=Europe/Paris:20260704T193000
+SUMMARY:Messe
+LOCATION:Église Saint-Didier de Villers-sous-Montrond
+CATEGORIES:CELEBRATION
+END:VEVENT
+BEGIN:VEVENT
+UID:eglise-saint-didier-de-villers-sous-montrond-20260830-10h30@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20260830T103000
+DTEND;TZID=Europe/Paris:20260830T113000
+SUMMARY:Messe
+LOCATION:Église Saint-Didier de Villers-sous-Montrond
+CATEGORIES:CELEBRATION
+END:VEVENT
+BEGIN:VEVENT
+UID:eglise-saint-didier-de-villers-sous-montrond-20261003-18h00@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20261003T180000
+DTEND;TZID=Europe/Paris:20261003T190000
+SUMMARY:Messe
+LOCATION:Église Saint-Didier de Villers-sous-Montrond
+CATEGORIES:CELEBRATION
+DESCRIPTION:lieu de baptême
+END:VEVENT
+END:VCALENDAR

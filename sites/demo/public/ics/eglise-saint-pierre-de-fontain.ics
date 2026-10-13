@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//POC site paroisse//Simulation Enoria//FR
+X-WR-CALNAME:Église Saint-Pierre de Fontain
+X-WR-TIMEZONE:Europe/Paris
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+BEGIN:VEVENT
+UID:eglise-saint-pierre-de-fontain-20261225-10h30@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20261225T103000
+DTEND;TZID=Europe/Paris:20261225T113000
+SUMMARY:Messe
+LOCATION:Église Saint-Pierre de Fontain
+CATEGORIES:CELEBRATION
+DESCRIPTION:Noël · consécration du nouvel autel
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,20 @@
+---
+// Toutes les pages de l'arborescence gérée dans le back-office.
+import Base from '../layouts/Base.astro';
+import Blocs from '../components/Blocs.astro';
+import { pages, type Page } from '../lib/pages';
+
+export function getStaticPaths() {
+  return pages.map((p) => ({ params: { chemin: p.chemin.slice(1, -1) }, props: { page: p } }));
+}
+const { page } = Astro.props as { page: Page };
+---
+<Base titre={page.titre} description={page.resume || undefined}>
+  <div class="conteneur">
+    {page.ancetres.length > 0 && (
+      <p class="petit">{page.ancetres.map((a) => <><a href={a.chemin}>{a.titre}</a> › </>)}{page.titre}</p>
+    )}
+    <h1>{page.titre}</h1>
+    <Blocs page={page} />
+  </div>
+</Base>

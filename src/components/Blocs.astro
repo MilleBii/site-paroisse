@@ -1,0 +1,87 @@
+---
+// Rendu des blocs d'une page du back-office. Les blocs dynamiques (horaires, clochers) lisent les calendriers Enoria.
+import { marked } from 'marked';
+import Celebrations from './Celebrations.astro';
+import ChoixSecteurs from './ChoixSecteurs.astro';
+import CarteLieux from './CarteLieux.astro';
+import FormulaireEnoria from './FormulaireEnoria.astro';
+import ListeArticles from './ListeArticles.astro';
+import { prochaines, pourListes, lieux, secteurs, nomCourt } from '../lib/agenda';
+import { urlImage, proportion } from '../lib/images';
+import type { Page } from '../lib/pages';
+
+interface Props { page: Page }
+const { page } = Astro.props;
+const blocs = page.blocs.length ? page.blocs : page.enfants.length ? [{ type: 'sous_pages' }] : [];
+const html = (t?: string | null) => (t ? (marked.parse(t) as string) : '');
+const besoinHoraires = blocs.find((b) => b.type === 'horaires');
+const horaires = besoinHoraires
+  ? pourListes(await prochaines({ jours: besoinHoraires.nombre || 35 }))
+  : [];
+---
+{blocs.map((b) => {
+  switch (b.type) {
+    case 'texte':
+      return <section class="bloc">{b.titre && <h2>{b.titre}</h2>}<div set:html={html(b.contenu)} /></section>;
+    case 'image':
+      return b.photo?.src ? (
+        <figure class="bloc photo">
+          <img src={urlImage(b.photo)} alt={b.legende ?? ''} loading="lazy" style={proportion(b.photo) ? `aspect-ratio:${proportion(b.photo)}` : ''} />
+          {b.legende && <figcaption class="petit doux">{b.legende}</figcaption>}
+        </figure>
+      ) : null;
+    case 'a_rediger':
+      return <p class="a-rediger">{b.contenu || 'À rédiger.'}</p>;
+    case 'sous_pages':
+      return (
+        <section class="bloc">
+          {b.titre && <h2>{b.titre}</h2>}
+          <div class="grille">
+            {page.enfants.map((e) => <a class="carte tuile" href={e.chemin}><strong>{e.titre}</strong>{e.resume && <span class="doux">{e.resume}</span>}</a>)}
+          </div>
+        </section>
+      );
+    case 'horaires':
+      return <section class="bloc">{b.titre && <h2>{b.titre}</h2>}<ChoixSecteurs titre="Choisir mes secteurs" /><Celebrations celebrations={horaires} /></section>;
+    case 'clochers':
+      return (
+        <section class="bloc">
+          {b.titre && <h2>{b.titre}</h2>}
+          <CarteLieux />
+          {secteurs.map((s) => (
+            <>
+              <h3><span class="pastille" style={`background:${s.couleur}`}></span>{s.nom}</h3>
+              <ul class="liste-lieux">
+                {lieux.filter((l) => l.secteur === s.slug).sort((a, z) => z.nb_celebrations - a.nb_celebrations || a.commune.localeCompare(z.commune))
+                  .map((l) => <li><a href={`/clochers/${l.slug}/`} style={l.nb_celebrations ? 'font-weight:600' : ''}>{nomCourt(l)}</a> <span class="doux petit">— {l.nom}</span></li>)}
+              </ul>
+            </>
+          ))}
+        </section>
+      );
+    case 'formulaire_enoria':
+      return <section class="bloc" style="max-width:520px"><FormulaireEnoria titre={b.titre ?? 'Formulaire'} texte={b.contenu ?? ''} url={b.url} /></section>;
+    case 'formulaire_iframe':
+      return (
+        <section class="bloc">
+          {b.titre && <h2>{b.titre}</h2>}
+          {b.contenu && <div set:html={html(b.contenu)} />}
+          {b.url && !/[?&]fl=/.test(b.url)
+            ? <iframe class="iframe-enoria" src={b.url} title={b.titre ?? 'Formulaire Enoria'} loading="lazy"></iframe>
+            : <p class="a-rediger">Lien du formulaire Enoria à renseigner (copié depuis Enoria déconnecté, sans « fl= »).</p>}
+        </section>
+      );
+    case 'articles':
+      return <section class="bloc">{b.titre && <h2>{b.titre}</h2>}<ListeArticles max={b.nombre || undefined} /></section>;
+    default:
+      return null;
+  }
+})}
+<style>
+  .bloc { margin: 0 0 28px; }
+  .bloc h3 { margin-top: 1.2em; }
+  .photo { margin: 0 0 28px; }
+  .photo img { display: block; width: 100%; height: auto; border-radius: var(--rayon); }
+  .photo figcaption { margin-top: 6px; }
+  .iframe-enoria { width: 100%; max-width: 760px; height: 900px; border: 1px solid var(--bord); border-radius: 6px; background: #fff; }
+</style>

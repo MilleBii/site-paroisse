@@ -1,0 +1,69 @@
+---
+import Base from '../layouts/Base.astro';
+import Celebrations from '../components/Celebrations.astro';
+import CarteLieux from '../components/CarteLieux.astro';
+import FormulaireEnoria from '../components/FormulaireEnoria.astro';
+import ListeArticles from '../components/ListeArticles.astro';
+import { prochaines, pourListes, lieux } from '../lib/agenda';
+import { paroisse } from '../lib/config';
+import { pageAvecBloc } from '../lib/pages';
+
+// Textes de l'accueil : site/paroisse.json > accueil
+const A = paroisse.accueil;
+const aVenir = pourListes(await prochaines({ jours: 9 }));
+const horaires = pageAvecBloc('horaires');
+const clochers = pageAvecBloc('clochers');
+---
+<Base titre={paroisse.nom_court}>
+  <section class="hero">
+    <div class="conteneur">
+      <div>
+        <h1>{A.titre}</h1>
+        <p>{A.texte}</p>
+        {horaires && <p><a class="bouton" href={horaires.chemin}>Toutes les messes</a></p>}
+      </div>
+      <img class="logo-hero" src="/img/logo.webp" alt={`Logo de la ${paroisse.nom}`} width="600" height="600" loading="lazy" />
+    </div>
+  </section>
+
+  <div class="conteneur">
+    <h2>Prochaines messes</h2>
+    <div style="display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));align-items:start">
+      <Celebrations celebrations={aVenir} />
+      <div style="display:grid;gap:16px">
+      {A.encadre && (
+        <aside class="carte accent">
+          <h3>{A.encadre.titre}</h3>
+          <p set:html={A.encadre.texte} />
+          {A.encadre.lien && <a href={A.encadre.lien}>{A.encadre.libelle}</a>}
+        </aside>
+      )}
+      </div>
+    </div>
+
+    <h2>Actualités</h2>
+    <ListeArticles max={3} />
+    <p><a href="/actualites/">Toutes les actualités</a></p>
+
+    <h2>Vos démarches</h2>
+    <div class="grille">
+      {A.demarches.map((d) => <a class="carte tuile" href={d.href}><strong>{d.titre}</strong><span class="doux">{d.texte}</span></a>)}
+    </div>
+
+    <h2>Nos églises et chapelles</h2>
+    <CarteLieux />
+    {clochers && <p><a href={clochers.chemin}>La liste des {lieux.length} lieux de culte, par secteur</a></p>}
+
+    <h2 id="lettre">Restez informés</h2>
+    <div class="grille">
+      <FormulaireEnoria titre="La lettre de la paroisse" texte="Les annonces et les rendez-vous de la semaine, par e-mail." url={paroisse.enoria.lettre} bouton="Je m'inscris" />
+      {A.bulletin && (
+        <div class="carte">
+          <h3>{A.bulletin.titre}</h3>
+          <p>{A.bulletin.texte}</p>
+          <a class="bouton" href={A.bulletin.lien}>Lire le bulletin (PDF)</a>
+        </div>
+      )}
+    </div>
+  </div>
+</Base>

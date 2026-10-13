@@ -1,0 +1,17 @@
+{
+  "name": "site-paroisse",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^7.3.8",
+    "leaflet": "^1.9.4",
+    "marked": "^18.1.0",
+    "node-ical": "^0.27.3"
+  },
+  "license": "MIT"
+}

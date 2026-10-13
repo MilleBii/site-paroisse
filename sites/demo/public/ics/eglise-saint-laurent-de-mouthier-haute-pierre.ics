@@ -1,0 +1,45 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//POC site paroisse//Simulation Enoria//FR
+X-WR-CALNAME:Église Saint-Laurent de Mouthier-Haute-Pierre
+X-WR-TIMEZONE:Europe/Paris
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+BEGIN:VEVENT
+UID:eglise-saint-laurent-de-mouthier-haute-pierre-20260704-18h30@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20260704T183000
+DTEND;TZID=Europe/Paris:20260704T193000
+SUMMARY:Messe
+LOCATION:Église Saint-Laurent de Mouthier-Haute-Pierre
+CATEGORIES:CELEBRATION
+END:VEVENT
+BEGIN:VEVENT
+UID:eglise-saint-laurent-de-mouthier-haute-pierre-20260809-10h30@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20260809T103000
+DTEND;TZID=Europe/Paris:20260809T113000
+SUMMARY:Messe
+LOCATION:Église Saint-Laurent de Mouthier-Haute-Pierre
+CATEGORIES:CELEBRATION
+DESCRIPTION:saint Laurent \; lieu de baptême
+END:VEVENT
+BEGIN:VEVENT
+UID:eglise-saint-laurent-de-mouthier-haute-pierre-20261114-18h00@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20261114T180000
+DTEND;TZID=Europe/Paris:20261114T190000
+SUMMARY:Messe
+LOCATION:Église Saint-Laurent de Mouthier-Haute-Pierre
+CATEGORIES:CELEBRATION
+END:VEVENT
+BEGIN:VEVENT
+UID:eglise-saint-laurent-de-mouthier-haute-pierre-20270116-17h30@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20270116T173000
+DTEND;TZID=Europe/Paris:20270116T183000
+SUMMARY:Messe
+LOCATION:Église Saint-Laurent de Mouthier-Haute-Pierre
+CATEGORIES:CELEBRATION
+DESCRIPTION:fête des familles
+END:VEVENT
+END:VCALENDAR

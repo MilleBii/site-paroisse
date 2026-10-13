@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//POC site paroisse//Simulation Enoria//FR
+X-WR-CALNAME:Chapelle Notre-Dame-du-Haut-Ciel de Châteauvieux-les-Fossés
+X-WR-TIMEZONE:Europe/Paris
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+BEGIN:VEVENT
+UID:chapelle-notre-dame-du-haut-ciel-de-chateauvieux-les-fosses-20260823-10h30@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20260823T103000
+DTEND;TZID=Europe/Paris:20260823T113000
+SUMMARY:Messe
+LOCATION:Chapelle Notre-Dame-du-Haut-Ciel de Châteauvieux-les-Fossés
+CATEGORIES:CELEBRATION
+END:VEVENT
+END:VCALENDAR

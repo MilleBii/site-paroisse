@@ -1,0 +1,35 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//POC site paroisse//Simulation Enoria//FR
+X-WR-CALNAME:Église de la Nativité-de-Saint-Jean-Baptiste de Rurey
+X-WR-TIMEZONE:Europe/Paris
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+BEGIN:VEVENT
+UID:eglise-de-la-nativite-de-saint-jean-baptiste-de-rurey-20260823-10h30@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20260823T103000
+DTEND;TZID=Europe/Paris:20260823T113000
+SUMMARY:Messe
+LOCATION:Église de la Nativité-de-Saint-Jean-Baptiste de Rurey
+CATEGORIES:CELEBRATION
+END:VEVENT
+BEGIN:VEVENT
+UID:eglise-de-la-nativite-de-saint-jean-baptiste-de-rurey-20261018-10h30@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20261018T103000
+DTEND;TZID=Europe/Paris:20261018T113000
+SUMMARY:Messe
+LOCATION:Église de la Nativité-de-Saint-Jean-Baptiste de Rurey
+CATEGORIES:CELEBRATION
+END:VEVENT
+BEGIN:VEVENT
+UID:eglise-de-la-nativite-de-saint-jean-baptiste-de-rurey-20261129-10h30@poc-paroisse
+DTSTAMP:20261011T174043Z
+DTSTART;TZID=Europe/Paris:20261129T103000
+DTEND;TZID=Europe/Paris:20261129T113000
+SUMMARY:Messe
+LOCATION:Église de la Nativité-de-Saint-Jean-Baptiste de Rurey
+CATEGORIES:CELEBRATION
+DESCRIPTION:1er dimanche de l'Avent
+END:VEVENT
+END:VCALENDAR
