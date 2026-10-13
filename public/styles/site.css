@@ -17,6 +17,8 @@
   color-scheme: light;
 }
 * { box-sizing: border-box; }
+/* « hidden » l'emporte toujours, même sur un élément en display: grid ou flex (ex. filtre des secteurs) */
+[hidden] { display: none !important; }
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0; background: #fff; color: var(--texte);
@@ -92,8 +94,8 @@ nav.menu > .conteneur > ul a:hover, nav.menu > .conteneur > ul a[aria-current="p
 .jour h3 { color: var(--texte); font-size: 1rem; margin: 0 0 4px; padding-left: 20px; position: relative; text-transform: capitalize; }
 .jour h3::before { content: ""; position: absolute; left: 0; top: 2px; border-style: solid; border-width: 0 0 13px 13px; border-color: transparent transparent var(--accent) transparent; }
 .jour ul { list-style: none; margin: 0; padding: 0 0 0 20px; }
-.jour li { display: grid; grid-template-columns: 70px 1fr; gap: 10px; padding: 5px 0; border-top: 1px solid var(--bord); }
-.jour li:first-child { border-top: 0; }
+.jour li { display: grid; grid-template-columns: 70px 1fr; gap: 10px; padding: 5px 0; }
+.jour li:not([hidden]) ~ li { border-top: 1px solid var(--bord); }  /* trait entre deux messes visibles, même filtrées */
 .heure { font-weight: 700; color: var(--principale); font-variant-numeric: tabular-nums; }
 .jour .lieu a { font-weight: 600; text-decoration: none; color: var(--texte); }
 .jour .lieu a:hover { color: var(--principale); }
