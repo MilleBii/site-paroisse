@@ -8,7 +8,6 @@
   "diocese": "besancon",
   "adresse": "2 rue du Champliman, 25290 Ornans",
   "presentation": "59 communes, 5 secteurs, 1 sanctuaire.",
-  "bandeau_prototype": "Site de démonstration — contenus d'exemple, horaires simulés ; noms, téléphones et adresses e-mail sont fictifs.",
   "accueil": {
     "titre": "Bienvenue à Notre-Dame du Chêne des Premiers Plateaux",
     "texte": "Une paroisse, cinq secteurs et 59 communes autour d'Ornans, de Saône, de Bouclans, d'Amancey et des Quatre Monts, réunies autour du sanctuaire Notre-Dame du Chêne.",
@@ -58,11 +57,6 @@
     }
   ],
   "contact": "/contact/",
-  "agenda": {
-    "semaine_hors_listes": [
-      "chapelle-notre-dame-du-chene-de-scey-maisieres"
-    ]
-  },
   "cms": {
     "depot": "votre-compte/votre-site-paroisse",
     "branche": "main",
@@ -111,5 +105,11 @@
     "reservation_salle": null,
     "accompagnateur_catechumenat": null
   },
-  "calendriers_enoria": {}
+  "calendriers_enoria": {},
+  "agenda": {
+    "semaine_hors_listes": [
+      "chapelle-notre-dame-du-chene-de-scey-maisieres"
+    ]
+  },
+  "bandeau_prototype": "Site de démonstration — contenus d'exemple, horaires simulés ; noms, téléphones et adresses e-mail sont fictifs."
 }
